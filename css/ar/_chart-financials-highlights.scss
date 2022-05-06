@@ -1,0 +1,99 @@
+.chart-financials-highlights{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    color: $black;
+    padding-bottom: 15px;
+    &__title{
+        font-weight: bold;
+        font-size: 25px;
+        color: $white;
+        background-color: $main-color;
+        padding: 15px 15px;
+    }
+    &__data{
+        padding: 0px 15px;
+        position: relative;
+        &__panner{
+            position:absolute;
+            top: 10px;
+            color: $gray;
+            transition: all 0.5s;
+            z-index: 200;
+            font-size: 12px;
+            @media(max-width:990px){
+                display: block;
+            }
+            &:hover{
+                cursor: pointer;
+                color: $main-color;
+            }
+        }
+        .active-scroll{
+            color: $green;
+        }
+        #chart-financials-highlights__data__pan-left{
+            left: 1px;
+        }
+        #chart-financials-highlights__data__pan-right{
+            right: 1px;
+        }
+        &__container{
+            -ms-overflow-style: none; /* for Internet Explorer, Edge */
+            scrollbar-width: none; /* for Firefox */
+            overflow-x: auto; 
+            &::-webkit-scrollbar {
+            display: none; /* for Chrome, Safari, and Opera */
+            }
+            @media(max-width:900px){
+                direction: ltr;
+            }
+        }
+        &__table{
+            width: 100%;
+            min-width: 1200px;
+            direction: rtl;
+            &__row{
+                border-bottom: 1px solid $black;
+                &__head{
+                    font-weight: bold;
+                    text-align: center;
+                    padding: 15px 5px 5px 5px;
+                    width: 11.11%;
+                    &:first-child{
+                        text-align: right;
+                        position: sticky;
+                        right: 0;
+                        background-color: $white;
+                        padding-left: 10px;
+                    }
+                    &__text{
+
+                    }
+                }
+                &__body{
+                    text-align: center;
+                    padding: 15px 5px 5px 5px;
+                    width: 11.11%;
+                    font-size: 15px;
+                    &:first-child{
+                        text-align: right;
+                        position: sticky;
+                        right: 0;
+                        background-color: $white;
+                        padding-left: 10px;
+                    }
+                    &__text{
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+

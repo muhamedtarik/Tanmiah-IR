@@ -1,0 +1,245 @@
+.Financials-Highlights{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    margin-bottom: 24px;
+    position: relative;
+    &__popup{
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: none;
+        transition: all 0.3s;
+        &__overlay{
+            height: 100%;
+            width: 100%;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba($color: #000000, $alpha: 0.5);
+            &__chart{
+                width: 95%;
+                max-width: 600px;
+                background-color: $main-background;
+                padding: 15px;
+                &__close{
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-bottom: 20px;
+                    svg{
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        path{
+                            fill: $main-color;
+                        }
+                    }
+                }
+                &__graph{
+                    img{
+                        width: 100%;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+    &__currency{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: $main-color;
+        @media(max-width:650px){
+            display: block;
+        }
+    }
+    &__title{
+        font-weight: bold;
+        font-size: 25px;
+        color: $white;
+    }
+    &__container{
+        color: $black;
+        padding: 15px;
+    }
+    &__clear{
+        clear: both;
+        display: none;
+        @media(max-width:650px){
+            display: block;
+        }
+    }
+    &__table{
+        width: 100%;
+        @media(min-width:800px) and (max-width:1099px){
+            width: 1000px;
+        }
+        @media(min-width:500px) and (max-width:799px){
+            width: 800px;
+        }
+        @media(max-width:499px){
+            width: 700px;
+        }
+        &__row{
+            border-bottom: 1px solid $black;
+            line-height: 15px;
+            &__header{
+                font-size: 16px;
+                line-height: 17px;
+                font-weight: bold;
+                text-align: center;
+                padding-bottom: 2px;
+                &:first-child{
+                    text-align: left;
+                    background-color: $white;
+                    position: sticky;
+                    left: 0;
+                }
+                &__text{
+                }
+            }
+            &__data{
+                text-align: center;
+                padding-top: 8px;
+                padding-bottom: 2px;
+                font-size: 13px;
+                &:first-child{
+                    text-align: left;
+                    background-color: $white;
+                    position: sticky;
+                    left: 0;
+                }
+                &__text{
+                    &__icon{
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        path{
+                            fill: $main-color;
+                        }
+                    }
+                }
+            }
+            .desc{
+                font-size: 14px;
+                width: 250px;
+                word-wrap: break-word;
+                @media(max-width:499px){
+                    width: 150px;
+                    word-wrap: break-word;
+                }
+            }
+        }
+    }
+    &__more{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        //position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        border-top: 1px solid $black;
+        color: $black;
+        text-decoration: none;
+        &:hover{
+            color: $black;
+            text-decoration: none;
+        }
+        &__name{
+
+        }
+        &__icon{
+            font-size: 13px;
+            color: $main-color;
+        }
+    }
+    .Financials-Highlights-tabs {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        border: 1px solid $white;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 0px;
+        position: relative;
+        z-index: 10;
+        @media(max-width:650px){
+            float: right;
+            margin-top: 15px;
+        }
+    }
+    .Financials-Highlights-tabs li {
+        cursor: pointer;
+        font-size: 14px;
+        padding: 3px 12px;
+        text-align: center;
+        color: $white;
+    }
+    .Financials-Highlights-tabs li.active{
+        background-color: $white;
+        color: $main-color;
+        font-weight: bold;
+        border: 1px solid $white;
+    }
+    .Financials-Highlights-tabs li:hover {
+        }
+        .Financials-Highlights__container{
+            position: relative;
+            z-index: 1;
+        }
+    .Financials-Highlights__container > div:not(:first-child) {
+        display: none;
+    }
+
+
+}
+
+
+.Financials-Highlights__riyal,.Financials-Highlights__usd{
+    width: 100%;
+    position: relative;
+    &__container{
+        width: 100%;
+        @media(max-width:1099px){
+            -ms-overflow-style: none; /* for Internet Explorer, Edge */
+            scrollbar-width: none; /* for Firefox */
+            overflow-x: scroll; 
+            &::-webkit-scrollbar {
+            display: none; /* for Chrome, Safari, and Opera */
+            }
+        }
+    }
+    &__panner{
+        display:none;
+        position:absolute;
+        top: 22px;
+        color: $gray;
+        transition: all 0.5s;
+        z-index: 200;
+        font-size: 12px;
+        @media(max-width:1099px){
+            display: block;
+        }
+        &:hover{
+            cursor: pointer;
+            color: $main-color;
+        }
+    }
+    .active-scroll{
+        color: $green;
+    }
+    #Financials-Highlights__riyal__panner-left,#Financials-Highlights__usd__panner-left{
+        left: -14px;
+    }
+    #Financials-Highlights__riyal__panner-right, #Financials-Highlights__usd__panner-right{
+        right: -14px;
+    }
+}

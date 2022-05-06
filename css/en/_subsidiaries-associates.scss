@@ -1,0 +1,94 @@
+.subsidiaries-associates{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+    &__title{
+        font-weight: bold;
+        font-size: 25px;
+        margin-top: 0px;
+        background-color: $main-color;
+        color: $white;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+    &__container{
+        padding: 0px 15px 15px 15px;
+    }
+    &__table{
+        width: 100%;
+        margin-bottom: 50px;
+        color: $black;
+        &__row{
+            border-bottom: 1px solid $black;
+            &:nth-child(1){
+                border-bottom: unset;
+            }
+            &__data{
+                width: 33.3%;
+                padding-top: 15px;
+                padding-bottom: 2px;
+                &:nth-child(1){
+                    padding-right: 10px;
+                }
+                &:nth-child(2){
+                    text-align: center;
+                    padding: 15px 10px 2px 10px;
+                }
+                &:nth-child(3){
+                    text-align: right;
+                    padding-left: 10px;
+                }
+                &__text{
+                    font-size: 15px;
+                    br{
+                        @media(min-width:551px){
+                            display: none;
+                        }
+                    }
+                    @media(min-width:400px) and (max-width:475px){
+                        font-size: 14px;
+                    }
+                    @media(min-width:350px) and (max-width:399px){
+                        font-size: 13px;
+                    }
+                    @media(min-width:320px) and (max-width:349px){
+                        font-size: 12px;
+                    }
+                    @media(max-width:319px){
+                        font-size: 11px;
+                    }
+                }
+            }
+        }
+    }
+    &__more{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        border-top: 1px solid $black;
+        color: $black;
+        text-decoration: none;
+        transition: all 0.3s;
+        @media(max-width:879px){
+            position: unset;
+        }
+        &:hover{
+            color: $main-color;
+            text-decoration: none;
+          }
+        &__name{
+    
+        }
+        &__icon{
+            font-size: 13px;
+            color: $main-color;
+        }
+    }
+}

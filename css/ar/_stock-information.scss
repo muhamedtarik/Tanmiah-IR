@@ -1,0 +1,108 @@
+.stock-information{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: relative;
+    margin-right: 12px;
+    margin-bottom: 24px;
+    width: calc(50% - 12px);
+    @media(max-width:799px){
+      width: 100%;
+      margin-left: 0px;
+    }
+    &__title{
+        font-weight: bold;
+        font-size: 25px;
+        margin-top: 0px;
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: $main-color;
+        color: $white;
+    }
+    &__container{
+      padding: 15px;
+    }
+    &__list{
+            margin-bottom: 30px;
+            color: black;
+        &__item{
+            font-size: 15px;
+            padding-right: 0;
+            list-style-type: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid $black;
+            padding-top: 10px;
+            &:first-child{
+                padding-top: 0px;
+            }
+            &__name{
+              font-weight: bold;
+            }
+            &__number{
+
+            }
+        }
+    }
+    &__more{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        border-top: 1px solid $black;
+        color: $black;
+        text-decoration: none;
+        @media(max-width:799px){
+          position: unset;
+        }
+        &:hover{
+            color: $black;
+            text-decoration: none;
+        }
+        &__name{
+    
+        }
+        &__icon{
+            font-size: 13px;
+            color: $main-color;
+        }
+    }
+    .stock-information-tabs {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 8px;
+        border: 1px solid $main-color;
+        margin: 0px auto 0px auto;
+        list-style: none;
+        padding: 0;
+        width: 140px;
+      }
+      .stock-information-tabs li {
+        cursor: pointer;
+        font-size: 14px;
+        padding: 3px 15px;
+        border-radius: unset;
+        color: $black;
+        width: 50%;
+      }
+      .stock-information-tabs li.active{
+        background-color: $main-color;
+        color: $white;
+        border-radius: 6px;
+        border: 1px solid $main-color;
+        color: $white;
+        font-weight: bold;
+      }
+      .stock-information-tabs li:hover {
+        }
+      .stock-information__container > div:not(:first-child) {
+        display: none;
+      }
+}
+
+

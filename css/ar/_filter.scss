@@ -1,0 +1,158 @@
+.filter{
+    background-color: $main-color;
+    border-radius: unset;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @media(max-width:539px){
+        display: block;
+    }
+    &__search{
+        display: flex;
+        align-items: center;
+        @media(max-width:429px){
+            justify-content: space-between;
+        }
+        @media(max-width:539px){
+           flex-wrap: wrap;
+        }
+        &__name{
+            margin-left: 10px;
+            font-size: 15px;
+            color: $white;
+            @media(max-width:539px){
+                display: none;
+             }
+        }
+        &__input{
+            width: 250px;
+            height: 40px;
+            display: block;
+            position: relative;
+            margin: 0px 15px;
+            @media(min-width:540px) and (max-width:650px){
+                width: 185px;
+            }
+            @media(max-width:539px){
+                width: 100%;
+                margin: 0px 0px;
+             }
+            input{
+                height: 100%;
+                width: 100%;
+                outline: unset;
+                border: 1px solid $white;
+                background-color: $white;
+                color: $main-color;
+                padding: 2px 5px;
+                transition: all 0.5s;
+                font-size: 12px;
+                border-radius: unset;
+                cursor: pointer;
+                &:focus{
+                    border: 1px solid $green;
+                    font-size: 12px;
+                }
+                &::placeholder{
+                    color: #BFBFBF;
+                }
+                &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                    color: #BFBFBF;
+                    opacity: 1; /* Firefox */
+                  }
+                  
+                  &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                    color: #BFBFBF;
+                  }
+                  
+                  &::-ms-input-placeholder { /* Microsoft Edge */
+                    color: #BFBFBF;
+                  }
+            }
+            &__icon{
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                top: 7.5px;
+                bottom: 7.5px;
+                left: 5px;
+                pointer-events: none;
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    path{
+                        fill: $main-color;
+                    }
+                }
+            }
+        }
+        &__btn{
+            margin-right: 10px;
+            border: 1px solid $white;
+            background-color: $white;
+            color: $main-color;
+            border-radius: unset;
+            padding: 2px 0px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: all 0.5s;
+            width: 100px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            @media(min-width:540px) and (max-width:650px){
+                width: 75px;
+                font-size: 13px;
+            }
+            @media(max-width:539px){
+                width: 100%;
+                margin-right: 0px;
+                margin-top: 10px;
+             }
+        }
+    }
+    &__data{
+        display: flex;
+        align-items: center;
+        @media(max-width:539px){
+            margin-top: 20PX;
+            justify-content: center;
+        }
+        &__link{
+            margin: 0px 4px;
+            display: flex;
+            align-items: center;
+            @media(max-width:465px){    
+                margin: 0px 2px;
+            }
+            &:last-child{
+                @media(max-width:465px){    
+                    margin-right: 0px;
+                }
+            }
+            svg{
+                width: 25px;
+                height: 25px;
+                @media(min-width:540px) and (max-width:650px){
+                    width: 20px;
+                    height: 20px;
+                }
+                @media(max-width:530px){
+                    width: 20px;
+                    height: 20px;
+                }
+                path{
+                    fill: $white;
+                }
+            }
+        }
+    }
+}

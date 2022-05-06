@@ -1,0 +1,96 @@
+.contact-ir{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    &__title{
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 25px;
+        background-color: $main-color;
+        padding: 15px;
+        color: $white;
+    }
+    &__address{
+        padding: 0px 15px;
+        margin-bottom: 8px;
+        font-weight: bold;
+        i{
+            color: #F5D256;
+        }
+        span{
+            border-bottom: 1px solid $black;
+            margin-right: 10px;
+        }
+    }
+    &__address-details{
+        list-style-type: none;
+        margin: 20px 0px 30px 0px;
+        padding: 0px 15px;
+        &__item{
+            padding-right: 20px;
+        }
+    }
+    &__contact{
+        list-style-type: none;
+        padding-right: 0px;
+        margin-bottom: 25px;
+        padding: 0px 15px;
+        &__item{
+            margin: 5px 0px;
+            font-size: 15px;
+            i{
+                color: #F5D256;
+            }
+            a{
+                margin-right: 25px;
+                color: $black;
+                text-decoration: none;
+                transition: all 0.5s;
+                direction: ltr;
+                display: inline-block;
+                &:hover{
+                    text-decoration: none;
+                    color: $main-color;
+                }
+            }
+        }
+    }
+    &__download{
+        text-align: center;
+        padding: 0px 15px;
+        &__link{
+            display: inline-block;
+            text-decoration: none;
+            color: $main-color;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        &__apps{
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            margin: 0px auto;
+            padding-bottom: 15px;
+            &__apple{
+                margin-left: 3px;
+                &__link{
+                    &__img{
+                        width:120px;
+                        object-fit: cover;
+                    }
+                }
+ 
+            }
+            &__andriod{
+                margin-right: 3px;
+                &__link{
+                    &__img{
+                        width:120px;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,74 @@
+.trading-data{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    position: relative;
+    margin-right: 12px;
+    margin-bottom: 24px;
+    width: calc(50% - 12px);
+    @media(max-width:799px){
+        width: 100%;
+        margin-right: 0px;
+      }
+&__title{
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    background-color: $main-color;
+    color: $white;
+    padding: 15px;
+}
+&__list{
+    list-style-type: none;
+    padding-left: 0px;
+    color: $black;
+    padding: 15px;
+    &__item{
+        border-bottom: 1px solid $black;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 15px;
+        @media (min-width:320px)and(max-width:355px){
+            font-size: 13px;
+        }
+        @media(max-width:319px){
+            font-size: 12px;
+        }
+        &:nth-child(11){
+            padding-bottom: 12px;
+        }
+        &__name{
+            font-weight: bold;
+        }
+        &__number{
+
+        }
+    }
+}
+&__more{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-top: 1px solid $black;
+    color: $black;
+    text-decoration: none;
+    &:hover{
+        color: $black;
+        text-decoration: none;
+    }
+    &__name{
+
+    }
+    &__icon{
+        font-size: 13px;
+        color: $main-color;
+    }
+}
+}
+

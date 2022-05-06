@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" media="all" href="assets/favicon.ico">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/ar/all.min.css">
+    <link rel="stylesheet" href="css/ar/pignose.calendar.min.css">
+    <link rel="stylesheet" href="css/ar/style.css">
+    <title>Tanmiah – Corporate &amp; Investors</title>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/momentum.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/stochastic.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/roc.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/macd.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/rsi.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/mfi.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script>
+        Highcharts.setOptions({
+            global: {
+                timezoneOffset: -240
+            },
+            lang: {
+                months: ['يناير', 'فبراير', 'مارس', 'أبريل ', 'مايو', 'يونيو ', 'يوليو ', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+                shortMonths: ['يناير', 'فبراير', 'مارس', 'أبريل ', 'مايو', 'يونيو ', 'يوليو ', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+            }
+        });
+    </script>
+</head>
+   <body style="direction:rtl">
+      <div id="tanmiahapp" v-bind:lang="Language = 'ar'" v-cloak>
+         <div class="header" id="header">
+            <a href="#" class="header__logo">
+            <img src="assets/tanmiah-logo-ar.png" alt="tanmiah-logo">
+            </a>
+            <img class="header__corporate-investors" src="assets/logo-corporate-investors-ar.jpeg" alt="corporate-investors">
+        </div>
+        <div class="main">
+            <div class="item">
+                <span>معلومات الشركة</span>
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+            <div class="overlay-container">
+               <div class="overlay-inner">
+                  <img id="wClose" src="assets/close.svg" alt="close">
+                  <ul class="tabs drop-down">
+                     <li data-cont=".overview" v-on:click="LoadPage('overview', loadCompanyOverView)" class="active">معلومات الشركة</li>
+                     <li data-cont=".profile" v-on:click="LoadPage('profile', loadCompanyProfile)">ملف الشركة</li>
+                     <li data-cont=".chart" v-on:click="LoadPage('chart', loadCompanyChart)">تشارت</li>
+                     <li data-cont=".financial-statement" v-on:click="LoadPage('financial-statement', loadCompanyFStatements)">القوائم المالية</li>
+                     <li data-cont=".financial-ratio" v-on:click="LoadPage('financial-ratio', loadCompanyFRatios)">المؤشرات  المالية</li>
+                     <li data-cont=".dividend-information" v-on:click="LoadPage('dividend-information', loadCorporateActions)">اجراءات الشركة</li>
+                  </ul>
+               </div>
+            </div>
+            <div class="side-bar">
+               <p class="side-bar__title">
+                  الشركة وعلاقات
+                  <br>
+                  المستشمرين
+               </p>
+               <a class="side-bar__link" href="tel:+966-11 477 5912"> +966-11 477 5912 <i class="fas fa-phone"></i></a>
+               <a class="side-bar__link" href="mailto:ir@tanmiah.com"> ir@tanmiah.com <i class="fas fa-at"></i></a>
+               <ul class="tabs side-bar__tabs">
+                  <li data-cont=".overview" v-on:click="LoadPage('overview', loadCompanyOverView)" class="active">معلومات الشركة</li>
+                  <li data-cont=".profile" v-on:click="LoadPage('profile', loadCompanyProfile)"> ملف الشركة</li>
+                  <li data-cont=".chart" v-on:click="LoadPage('chart', loadCompanyChart)">تشارت</li>
+                  <li data-cont=".financial-statement" v-on:click="LoadPage('financial-statement', loadCompanyFStatements)">القوائم المالية</li>
+                  <li data-cont=".financial-ratio" v-on:click="LoadPage('financial-ratio', loadCompanyFRatios)">المؤشرات  المالية</li>
+                  <li data-cont=".dividend-information" v-on:click="LoadPage('dividend-information', loadCorporateActions)">اجراءات الشركة</li>
+               </ul>
+            </div>
+            <div class="widgets-container">
+               <div class="t__page overview" v-cloak>
+                  <div class="about" v-cloak>
+                     <div class="about__indicators">
+                        <p v-cloak> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                        <p v-cloak><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                        <p v-cloak>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                     <p class="about__breif" v-html="CompanyOverview.profileInfo.summaryAr"> 
+                     </p>
+                  </div>
+                  <div class="ticker">
+                     <div class="ticker__data">
+                        <div class="ticker__data__section">
+                           <p class="ticker__data__section__title">
+                              أداء السهم
+                           </p>
+                           <p class="ticker__data__section__val" style="font-weight: bold;">
+                              شركة التنمية الغذائية
+                           </p>
+                        </div>
+                        <div class="ticker__data__section">
+                           <p class="ticker__data__section__title">
+                              سعر
+                           </p>
+                           <p class="ticker__data__section__val">
+                              {{formatter.format(CompanyOverview.prices[0].closeValue)}}
+                           </p>
+                        </div>
+                        <div class="ticker__data__section">
+                           <p class="ticker__data__section__title" style="margin-bottom: 2px;">
+                              التغير
+                           </p>
+                           <p class="ticker__data__section__val">
+                           <div class="ticker__data__section__val__indicators">
+                              <i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>
+                              <p class="ticker__data__section__val__indicators__number">
+                                 {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}
+                              </p>
+                              <p class="ticker__data__section__val__indicators__number">
+                                 {{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="padding: 0px 15px 15px 15px; margin-top: 20px;">
+                        <ul class="ticker-tab">
+                           <li class="active" data-cont="1D" v-on:click="fetchCartData('overviewchart','1D')" v-if="!Config.OverView.ExcludeTickerTabs.includes('1D')">1 يوم</li>
+                           <li data-cont="5D" v-on:click="fetchCartData('overviewchart','5D')" v-if="!Config.OverView.ExcludeTickerTabs.includes('5D')">5 أيام</li>
+                           <li data-cont="3M" v-on:click="fetchCartData('overviewchart','3M')" v-if="!Config.OverView.ExcludeTickerTabs.includes('3M')">3 أشهر</li>
+                           <li data-cont="6M" v-on:click="fetchCartData('overviewchart','6M')" v-if="!Config.OverView.ExcludeTickerTabs.includes('6M')">6 أشهر</li>
+                           <li data-cont="1Y" v-on:click="fetchCartData('overviewchart','1Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('1Y')">سنة</li>
+                           <li data-cont="2Y" v-on:click="fetchCartData('overviewchart','2Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('2Y')">سنتين</li>
+                           <li data-cont="5Y" v-on:click="fetchCartData('overviewchart','5Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('5Y')">5 سنوات</li>
+                           <li data-cont="AY" v-on:click="fetchCartData('overviewchart','AY')" v-if="!Config.OverView.ExcludeTickerTabs.includes('AY')">الكل</li>
+                        </ul>
+                        <div class="ticker-container">
+                           <div class="one-day">
+                              <div class="ticker__chart">
+                                 <div id="overviewchart" style="height: 250px;width:100%"></div>
+                              </div>
+                              <div class="ticker__values">
+                                 <div class="ticker__values__details">
+                                    <span>O: {{formatter.format(CompanyOverview.prices[0].openValue)}}</span>
+                                    <span>H: {{formatter.format(CompanyOverview.prices[0].high)}}</span>
+                                    <span>L: {{formatter.format(CompanyOverview.prices[0].low)}}</span>
+                                    <span>C: {{formatter.format(CompanyOverview.prices[0].closeValue)}}</span>
+                                    <span>|</span>
+                                    <span>{{CompanyOverview.prices[0].tradingDate}}</span>
+                                 </div>
+                                 <p class="ticker__values__delay">
+                                    سهم التنمية (تأخير بـ 15 دقيقة )
+                                 </p>
+                              </div>
+                           </div>
+                        </div>
+                        <a href="#" class="ticker__more" v-on:click="LoadPage('chart', loadCompanyChart)">
+                        <span>المزيد</span>
+                        <i class="fas fa-arrow-left"></i>
+                        </a>
+                     </div>
+                  </div>
+                  <div class="marketvalue">
+                     <p class="marketvalue__header">
+                        <span class="marketvalue__header__title">
+                        أداء السهم
+                        </span>
+                        <span class="marketvalue__header__value">
+                        {{formatter.format(CompanyOverview.prices[0].amount)}}
+                        </span>
+                     </p>
+                     <div class="marketvalue__container">
+                        <div class="marketvalue__container__right">
+                           <p class="marketvalue__container__right__data">
+                              <span class="marketvalue__container__right__data__text">
+                              حجم التداول
+                              </span>
+                              <span class="marketvalue__container__right__data__number">
+                              {{formatter.format(CompanyOverview.prices[0].volume)}}
+                              </span>
+                           </p>
+                           <p class="marketvalue__container__right__data">
+                              <span class="marketvalue__container__right__data__text">
+                              قيمه التداول
+                              </span>
+                              <span class="marketvalue__container__right__data__number">
+                              {{formatter.format(CompanyOverview.companyStockSummary.avgTurnover12Months)}}
+                              </span>
+                           </p>
+                           <p class="marketvalue__container__right__data">
+                              <span class="marketvalue__container__right__data__text">
+                              عدد الصفقات
+                              </span>
+                              <span class="marketvalue__container__right__data__number">
+                              {{formatter.format(CompanyOverview.companyStockSummary.avgTransactions12Months)}}
+                              </span>
+                           </p>
+                        </div>
+                        <div class="marketvalue__container__left">
+                           <p class="marketvalue__container__left__data">
+                              <span class="marketvalue__container__left__data__text">
+                              م. حجم التداول
+                              <br>
+                              <span class="marketvalue__container__left__data__text--small">
+                              (3 شهر)
+                              </span>
+                              </span>
+                              <span class="marketvalue__container__left__data__number">
+                              {{formatter.format(CompanyOverview.companyStockSummary.avgVolume3Months)}}
+                              </span>
+                           </p>
+                           <p class="marketvalue__container__left__data">
+                              <span class="marketvalue__container__left__data__text">
+                              م. قيمه التداول
+                              <br>
+                              <span class="marketvalue__container__left__data__text--small">
+                              (3 شهر)
+                              </span>
+                              </span>
+                              <span class="marketvalue__container__left__data__number">
+                              {{formatter.format(CompanyOverview.companyStockSummary.avgTurnover3Months)}}
+                              </span>
+                           </p>
+                           <p class="marketvalue__container__left__data">
+                              <span class="marketvalue__container__left__data__text">
+                              م.عدد الصفقات
+                              <br>
+                              <span class="marketvalue__container__left__data__text--small">
+                              (3 شهر)
+                              </span>
+                              </span>
+                              <span class="marketvalue__container__left__data__number">
+                              {{formatter.format(CompanyOverview.companyStockSummary.avgTransactions12Months)}}
+                              </span>
+                           </p>
+                        </div>
+                        <div class="marketvalue__container__change">
+                           <p class="marketvalue__container__change__name">التغير</p>
+                           <p class="marketvalue__container__change__data">
+                              <span class="marketvalue__container__change__data__period">شهر</span>
+                              <span class="marketvalue__container__change__data__perecntage">{{formatter.format(CompanyOverview.companyStockSummary.month1Change)}}</span>
+                           </p>
+                           <p class="marketvalue__container__change__data">
+                              <span class="marketvalue__container__change__data__period">3 اشهر</span>
+                              <span class="marketvalue__container__change__data__perecntage">{{formatter.format(CompanyOverview.companyStockSummary.month3Change)}}</span>
+                           </p>
+                           <p class="marketvalue__container__change__data">
+                              <span class="marketvalue__container__change__data__period">6 اشهر</span>
+                              <span class="marketvalue__container__change__data__perecntage">{{formatter.format(CompanyOverview.companyStockSummary.month6Change)}}</span>
+                           </p>
+                           <p class="marketvalue__container__change__data">
+                              <span class="marketvalue__container__change__data__period">من بدايه العام</span>
+                              <span class="marketvalue__container__change__data__perecntage">{{formatter.format(CompanyOverview.companyStockSummary.ytdChange)}}</span>
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="contact-ir">
+                     <p class="contact-ir__title">التواصل</p>
+                     <p class="contact-ir__address"><i class="fas fa-map-marker-alt"></i><span>العنوان</span></p>
+                     <ul class="contact-ir__address-details">
+                        <li class="contact-ir__address-details__item">
+                           شارع فاطمة الزهراء - حى الربوة - طريق عمر بن عبدالعزيز - الرياض 11632
+                        </li>
+                     </ul>
+                     <ul class="contact-ir__contact">
+                        <li class="contact-ir__contact__item">
+                           <i class="fas fa-phone"></i>
+                           <a href="tel:+966114775192">
+                           +966 11 477 5912
+                           </a>
+                        </li>
+                        <li class="contact-ir__contact__item">
+                           <i class="fas fa-envelope"></i>
+                           <a href="mailto:IR@tanmiah.com">
+                           IR@tanmiah.com
+                           </a>
+                        </li>
+                     </ul>
+                     <div class="contact-ir__download">
+                        <span class="contact-ir__download__link">تحميل التطبيق</span>
+                        <div class="contact-ir__download__apps">
+                           <div class="contact-ir__download__apps__apple">
+                              <a href="#" class="contact-ir__download__apps__apple__link">
+                              <img class="contact-ir__download__apps__apple__link__img"
+                                 src="./assets/app-store-badge.png" alt="app-store">
+                              </a>
+                           </div>
+                           <div class="contact-ir__download__apps__andriod">
+                              <a href="#" class="contact-ir__download__apps__andriod__link">
+                              <img class="contact-ir__download__apps__andriod__link__img"
+                                 src="./assets/google-play-badge.png" alt="google-play">
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="t__page profile" v-cloak>
+                  <div class="about" style="margin-bottom: 24px; width: 100%;">
+                     <div class="about__indicators">
+                         <p> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                         <p><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                         <p>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                  </div>
+                  <div class="intro">
+                     <div class="intro__container" style="padding-top: 0px;">
+                        <p class="intro__container__title">
+                           مجال عمل الشركة
+                        </p>
+                        <p class="intro__container__text" v-html="CompanyProfile.profileInfo.overviewAr"> 
+                        </p>
+                     </div>
+                     <div class="intro__container">
+                        <p class="intro__container__title">
+                           نبذة موسعة
+                        </p>
+                        <p class="intro__container__text" v-html="CompanyProfile.profileInfo.summaryAr"> 
+                        </p>
+                     </div>
+                  </div>
+                  <div class="Financials-Highlights" v-cloak v-show="Config.Profile.FinancialsHighlights">
+                     <div class="Financials-Highlights__currency">
+                        <p class="Financials-Highlights__title">
+                           ملخص النتائج المالية <span class="Financials-Highlights__currency__type Financials-Highlights__currency__type-ar">(مليون ريال)</span>
+                        </p>
+                        <ul class="Financials-Highlights-tabs" v-cloak v-show="Config.Profile.CurrencyConversion">
+                           <li data-cont="Financials_Highlights__usd" v-on:click="setCurrencyFinancialHighlight('USD')" class="Financials-Highlights-tabs__usd Financials-Highlights-tabs__usd-ar">دولار</li>
+                           <li data-cont="Financials_Highlights__riyal" v-on:click="setCurrencyFinancialHighlight('RIYAL')" class="active Financials-Highlights-tabs__riyal Financials-Highlights-tabs__riyal-ar">ريال</li>
+                        </ul>
+                        <div class="Financials-Highlights__clear">
+                        </div>
+                     </div>
+                     <div class="Financials-Highlights__container">
+                        <div class="Financials-Highlights__riyal">
+                           <span id="Financials-Highlights__riyal__panner-left"
+                              class="Financials-Highlights__riyal__panner" data-scroll-modifier="-1">
+                           <i class="far fa-arrow-alt-circle-left"></i>
+                           </span>
+                           <span id="Financials-Highlights__riyal__panner-right"
+                              class="Financials-Highlights__riyal__panner" data-scroll-modifier="1">
+                           <i class="far fa-arrow-alt-circle-right"></i>
+                           </span>
+                           <div class="Financials-Highlights__riyal__container">
+                              <table class="Financials-Highlights__table">
+                                 <tr class="Financials-Highlights__table__row">
+                                    <th class="Financials-Highlights__table__row__header">
+                                       <p class="Financials-Highlights__table__row__header__text">
+                                          الوصف
+                                       </p>
+                                    </th>
+                                    <th class="Financials-Highlights__table__row__header" v-cloak v-show="Config.Profile.Charts">
+                                       <p class="Financials-Highlights__table__row__header__text">
+                                          تشارت
+                                       </p>
+                                    </th>
+                                    <th class="Financials-Highlights__table__row__header" v-for="year in getFinancialHighlightYears()" v-if="!Config.Profile.ExcludeFromFinancialYear.includes(year)">
+                                       <p class="Financials-Highlights__table__row__header__text">
+                                          {{year}}
+                                       </p>
+                                    </th>
+                                 </tr>
+                                 <tr class="Financials-Highlights__table__row" v-for="financialHighlight in CompanyProfile.financialHighlights" v-if="!Config.Profile.ExcludeFromFinancialField.includes(financialHighlight.DisplayNameEn)">
+                                    <td class="Financials-Highlights__table__row__data desc">
+                                       <p class="Financials-Highlights__table__row__data__text">
+                                          {{financialHighlight.DisplayNameAr}}
+                                       </p>
+                                    </td>
+                                    <td class="Financials-Highlights__table__row__data" v-cloak v-show="Config.Profile.Charts">
+                                       <p class="Financials-Highlights__table__row__data__text" v-on:click="showChartForFinancialHighlight(financialHighlight)">
+                                          <svg class="Financials-Highlights__table__row__data__text__icon"
+                                             xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+                                             <path id="Icon_material-insert-chart" data-name="Icon material-insert-chart"
+                                                d="M54.278,4.5H10.722A6.241,6.241,0,0,0,4.5,10.722V54.278A6.241,6.241,0,0,0,10.722,60.5H54.278A6.241,6.241,0,0,0,60.5,54.278V10.722A6.241,6.241,0,0,0,54.278,4.5ZM23.167,48.056H16.944V26.278h6.222Zm12.444,0H29.389V16.944h6.222Zm12.444,0H41.833V35.611h6.222Z"
+                                                transform="translate(-4.5 -4.5)" fill="#fff" />
+                                          </svg>
+                                       </p>
+                                    </td>
+                                    <td class="Financials-Highlights__table__row__data" v-for="year in getFinancialHighlightYears()" v-if="!Config.Profile.ExcludeFromFinancialYear.includes(year)">
+                                       <p class="Financials-Highlights__table__row__data__text">
+                                          {{formatter.format(financialHighlight[year])}}
+                                       </p>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="Financials-Highlights__popup">
+                        <div class="Financials-Highlights__popup__overlay">
+                           <div class="Financials-Highlights__popup__overlay__chart">
+                              <div class="Financials-Highlights__popup__overlay__chart__close">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="29.628" height="29.628" viewBox="0 0 29.628 29.628">
+                                    <path id="Icon_ionic-md-close-circle" data-name="Icon ionic-md-close-circle" d="M18.189,3.375A14.814,14.814,0,1,0,33,18.189,14.763,14.763,0,0,0,18.189,3.375ZM25.6,23.522,23.522,25.6l-5.333-5.333L12.856,25.6l-2.074-2.074,5.333-5.333-5.333-5.333,2.074-2.074,5.333,5.333,5.333-5.333L25.6,12.856l-5.333,5.333Z" transform="translate(-3.375 -3.375)"/>
+                                </svg> 
+                              </div>
+                              <div class="Financials-Highlights__popup__overlay__chart__graph">
+                                 <div id="financialhighligh_chart" style="width:100%; height:260px;"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="subsidiaries-associates">
+                     <p class="subsidiaries-associates__title">
+                        الشركات التابعة والزميلة
+                     </p>
+                     <div class="subsidiaries-associates__container">
+                        <table class="subsidiaries-associates__table">
+                           <tr class="subsidiaries-associates__table__row">
+                              <td class="subsidiaries-associates__table__row__data"
+                                 style="padding:5px 0px; font-weight: bold;">
+                                 <p class="subsidiaries-associates__table__row__data__text" style="font-size: 16px;">
+                                    الشركة
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data"
+                                 style="padding:5px 0px; font-weight: bold;">
+                                 <p class="subsidiaries-associates__table__row__data__text" style="font-size: 16px;">
+                                    الدولة
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data"
+                                 style="padding:5px 0px;padding-top: 5px; font-weight: bold;">
+                                 <p class="subsidiaries-associates__table__row__data__text" style="font-size: 16px;">
+                                    النسبة
+                                 </p>
+                              </td>
+                           </tr>
+                           <tr class="subsidiaries-associates__table__row">
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Supreme Foods Processing
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Saudi Arabia
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    100.00 %
+                                 </p>
+                              </td>
+                           </tr>
+                           <tr class="subsidiaries-associates__table__row">
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Desert Hills for Veterinary Services
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Saudi Arabia
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    100.00 %
+                                 </p>
+                              </td>
+                           </tr>
+                           <tr class="subsidiaries-associates__table__row">
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Agriculture Development
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    Saudi Arabia
+                                 </p>
+                              </td>
+                              <td class="subsidiaries-associates__table__row__data">
+                                 <p class="subsidiaries-associates__table__row__data__text">
+                                    100.00 %
+                                 </p>
+                              </td>
+                           </tr>
+                        </table>
+                        <a href="#" class="subsidiaries-associates__more">
+                        <span class="subsidiaries-associates__more__name">More</span>
+                        <span class="subsidiaries-associates__more__icon"><i class="fas fa-arrow-left"></i></span>
+                        </a>
+                     </div>
+                  </div>
+                  <div class="trading-data" v-cloak v-show="Config.Profile.TradingData.Visible">
+                     <p class="trading-data__title">بيانات التداول</p>
+                     <ul class="trading-data__list">
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.TradingMarket">
+                           <span class="trading-data__list__item__name">سوق التداول :</span>
+                           <span class="trading-data__list__item__number">{{CompanyProfile.tradingData.marketNameEn}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.FiscalYearEnd">
+                           <span class="trading-data__list__item__name">نهاية السنة المالية :</span>
+                           <span class="trading-data__list__item__number"> {{CompanyProfile.tradingData.yearEndMonth}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.FreeFloat">
+                           <span class="trading-data__list__item__name">الأسهم الحرة (مليون):</span>
+                           <span class="trading-data__list__item__number">{{CompanyProfile.tradingData.freeFloatedShareMarketValue}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.FreeFloatPercent">
+                           <span class="trading-data__list__item__name">الأسهم الحرة %:</span>
+                           <span class="trading-data__list__item__number"> {{CompanyProfile.tradingData.percentage}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.WeightinIndexPercent">
+                           <span class="trading-data__list__item__name">وزن الشركة % :</span>
+                           <span class="trading-data__list__item__number"> {{CompanyProfile.tradingData.companyWeight}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.AverageVolume">
+                           <span class="trading-data__list__item__name">متوسط حجم التداول <br> لآخر 3 أشهر :</span>
+                           <span class="trading-data__list__item__number">{{CompanyProfile.tradingData.avgVolume3Months}}</span>
+                        </li>
+                        <li class="trading-data__list__item" v-cloak v-show="Config.Profile.TradingData.AverageTransactions">
+                           <span class="trading-data__list__item__name">متوسط ​​عدد التداولات <br> في آخر 3 أشهر :</span>
+                           <span class="trading-data__list__item__number">{{CompanyProfile.tradingData.avgTransactions3Months}}</span>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="stock-information">
+                     <p class="stock-information__title">
+                        بيانات السهم
+                     </p>
+                     <!--<ul class="stock-information-tabs">
+                        <li data-cont=".usd">USD</li>
+                        <li data-cont=".riyal" class="active">Riyal</li>
+                        </ul>-->
+                     <div class="stock-information__container">
+                        <div class="stock-information__usd usd">
+                           <ul class="stock-information__list">
+                              <li class="stock-information__list__item"  v-cloak v-show="Config.Profile.StockInfo.SharesOutstanding">
+                                 <span class="stock-information__list__item__name">عدد الأسهم (مليون)</span>
+                                 <span class="stock-information__list__item__number">{{CompanyProfile.stockInfo.numberOfShares}}</span>
+                              </li>
+                              <li class="stock-information__list__item" v-cloak v-show="Config.Profile.StockInfo.ParValue">
+                                 <span class="stock-information__list__item__name">القيمة الإسمية للسهم (ريال)</span>
+                                 <span class="stock-information__list__item__number">{{CompanyProfile.stockInfo.nominalValue}}</span>
+                              </li>
+                              <li class="stock-information__list__item" v-cloak v-show="Config.Profile.StockInfo.BookValue">
+                                 <span class="stock-information__list__item__name">القيمة الدفترية للسهم (ريال)</span>
+                                 <span class="stock-information__list__item__number">{{CompanyProfile.stockInfo.bookValue}}</span>
+                              </li>
+                              <li class="stock-information__list__item" v-cloak v-show="Config.Profile.StockInfo.MarketCap">
+                                 <span class="stock-information__list__item__name">القيمة السوقية (مليون)</span>
+                                 <span class="stock-information__list__item__number">{{CompanyProfile.stockInfo.marketValue}}</span>
+                              </li>
+                           </ul>
+                           <a href="#" class="stock-information__more" v-on:click="LoadPage('financial-ratios', loadCompanyFRatios)">
+                           <span class="stock-information__more__name">المؤشرات المالية</span>
+                           <span class="stock-information__more__icon"><i class="fas fa-arrow-left"></i></span>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="milestones" v-cloak v-show="Config.Profile.Milestones">
+                     <p class="milestones__title">التطورات الرئيسية</p>
+                     <div class="milestones__container">
+                        <ul class="milestones__list" v-for="milestone in CompanyProfile.milestones.slice(0, Config.Profile.MilestonesItems)">
+                           <li class="milestones__list__item">
+                              <span class="milestones__list__item__number">{{new Date(milestone.fullDate).toLocaleDateString('en-US')}}</span>
+                              <span class="milestones__list__item__name">
+                              {{milestone.titleAr}}
+                              </span>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <div class="t__page chart" v-cloak>
+                  <div class="about" style="margin-bottom: 24px; width: 100%;">
+                     <div class="about__indicators">
+                         <p> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                         <p><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                         <p>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                 </div>
+                  <div class="main-chart">
+                      <div class="main-chart__options">
+                          <div class="main-chart__options__select">
+                              <div class="main-chart__options__select__btn ind" data-type="Indicators">Indicators</div>
+                              <div class="main-chart__options__select__dropdown ind">
+                                  <div class="main-chart__options__select__dropdown__option ind" d-c="Stochastic" v-on:click="chartOptionChanged(ChartIndicator.Stochastic,'')">Stochastic</div>
+                                  <!--<div class="main-chart__options__select__dropdown__option ind" d-c="MFI"  v-on:click="chartOptionChanged(ChartIndicator.MFI,'')">Money Flow Index</div>-->
+                                  <div class="main-chart__options__select__dropdown__option ind" d-c="RSI" v-on:click="chartOptionChanged(ChartIndicator.RSI,'')">RSI</div>
+                                  <div class="main-chart__options__select__dropdown__option ind" d-c="MACD" v-on:click="chartOptionChanged(ChartIndicator.MACD,'')">MACD</div>
+                                  <div class="main-chart__options__select__dropdown__option ind" d-c="ROC" v-on:click="chartOptionChanged(ChartIndicator.ROC,'')">Roc (Rate of Change)</div>
+                                  <div class="main-chart__options__select__dropdown__option ind" d-c="Momentum" v-on:click="chartOptionChanged(ChartIndicator.Momentum,'')">Momentum</div>
+                              </div>
+                          </div>
+                          <div class="main-chart__options__select">
+                              <div class="main-chart__options__select__btn typ" data-type="Line">Line</div>
+                              <div class="main-chart__options__select__dropdown typ">
+                                  <div class="main-chart__options__select__dropdown__option typ active" d-c="line" v-on:click="chartOptionChanged('','line')">Line</div>
+                                  <div class="main-chart__options__select__dropdown__option typ" d-c="area" v-on:click="chartOptionChanged('','area')">Area</div>
+                                  <div class="main-chart__options__select__dropdown__option typ" d-c="ohlc" v-on:click="chartOptionChanged('','ohlc')">OHLC</div>
+                                  <div class="main-chart__options__select__dropdown__option typ" d-c="spline" v-on:click="chartOptionChanged('','spline')">Spline</div>
+                                  <div class="main-chart__options__select__dropdown__option typ" d-c="areaspline" v-on:click="chartOptionChanged('','areaspline')">Area spline</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="main-chart__data">
+                          <p class="main-chart__data__title">
+                              {{CompanyOverview.profileInfo.companyNameAr}}
+                          </p>
+                          <div class="main-chart__details">
+                              <div class="main-chart__details__title">
+                                  <p class="main-chart__details__title__company">
+                                      <i class="fas fa-circle"></i>
+                                      <span>تنمية:</span>
+                                  </p>
+                                  <p class="main-chart__details__title__data">الإغلاق : {{formatter.format(CompanyOverview.prices[0].closeValue)}}  |   التاريخ: {{CompanyOverview.prices[0].tradingDate}}</p>
+                              </div>
+                              <div class="main-chart__details__title">
+                                  <p class="main-chart__details__title__company">
+                                      <i class="fas fa-circle"></i>
+                                      <span>الحجم:</span>
+                                  </p>
+                                  <p class="main-chart__details__title__data">{{formatter.format(CompanyOverview.prices[0].volume)}}</p>
+                              </div>
+                          </div>
+                      </div>
+                      <!--<ul class="main-chart__periods">
+       <li class="active" data-cont="1D" v-on:click="fetchCartData('overviewchart','1D')" v-if="!Config.OverView.ExcludeTickerTabs.includes('1D')">1D</li>
+       <li data-cont="5D" v-on:click="fetchCartData('overviewchart','5D')" v-if="!Config.OverView.ExcludeTickerTabs.includes('5D')">5D</li>
+       <li data-cont="3M" v-on:click="fetchCartData('overviewchart','3M')" v-if="!Config.OverView.ExcludeTickerTabs.includes('3M')">3M</li>
+       <li data-cont="6M" v-on:click="fetchCartData('overviewchart','6M')" v-if="!Config.OverView.ExcludeTickerTabs.includes('6M')">6M</li>
+       <li data-cont="1Y" v-on:click="fetchCartData('overviewchart','1Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('1Y')">1Y</li>
+       <li data-cont="2Y" v-on:click="fetchCartData('overviewchart','2Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('2Y')">2Y</li>
+       <li data-cont="5Y" v-on:click="fetchCartData('overviewchart','5Y')" v-if="!Config.OverView.ExcludeTickerTabs.includes('5Y')">5Y</li>
+       <li data-cont="AY" v-on:click="fetchCartData('overviewchart','AY')" v-if="!Config.OverView.ExcludeTickerTabs.includes('AY')">All</li>
+       </ul>-->
+                      <div class="main-chart__graph">
+                          <div id="mainChart" tyle="height: 400px;width:100%; min-height: 75vh;"></div>
+                      </div>
+                  </div>
+                  <div class="filter">
+                     <form class="filter__search">
+                        <span class="filter__search__name">
+                        التاريخ
+                        </span>
+                        <span class="filter__search__input">
+                           <input type="text" id="chart_calendar" class="calendar" placeholder="25-June-2021 , 05-Jul-2021">
+                           <span class="filter__search__input__icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="49.087" height="56.099"
+                                 viewBox="0 0 49.087 56.099">
+                                 <path id="Icon_awesome-calendar-alt" data-name="Icon awesome-calendar-alt"
+                                    d="M0,50.84A5.261,5.261,0,0,0,5.259,56.1H43.828a5.261,5.261,0,0,0,5.259-5.259v-29.8H0ZM35.062,29.364a1.319,1.319,0,0,1,1.315-1.315H40.76a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H36.377a1.319,1.319,0,0,1-1.315-1.315Zm0,14.025a1.319,1.319,0,0,1,1.315-1.315H40.76a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H36.377a1.319,1.319,0,0,1-1.315-1.315ZM21.037,29.364a1.319,1.319,0,0,1,1.315-1.315h4.383a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H22.352a1.319,1.319,0,0,1-1.315-1.315Zm0,14.025a1.319,1.319,0,0,1,1.315-1.315h4.383a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H22.352a1.319,1.319,0,0,1-1.315-1.315ZM7.012,29.364A1.319,1.319,0,0,1,8.327,28.05H12.71a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H8.327a1.319,1.319,0,0,1-1.315-1.315Zm0,14.025a1.319,1.319,0,0,1,1.315-1.315H12.71a1.319,1.319,0,0,1,1.315,1.315v4.383a1.319,1.319,0,0,1-1.315,1.315H8.327a1.319,1.319,0,0,1-1.315-1.315ZM43.828,7.012H38.568V1.753A1.758,1.758,0,0,0,36.815,0H33.309a1.758,1.758,0,0,0-1.753,1.753V7.012H17.531V1.753A1.758,1.758,0,0,0,15.778,0H12.272a1.758,1.758,0,0,0-1.753,1.753V7.012H5.259A5.261,5.261,0,0,0,0,12.272v5.259H49.087V12.272A5.261,5.261,0,0,0,43.828,7.012Z"
+                                    fill="#fff"></path>
+                              </svg>
+                           </span>
+                        </span>
+                        <button class="filter__search__btn" v-on:click="searchCompanyPrices">
+                        بحث
+                        </button>
+                     </form>
+                     <div class="filter__data">
+                        <a href="#" class="filter__data__link">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="51.918" height="69.225"
+                              viewBox="0 0 51.918 69.225">
+                              <path id="Icon_awesome-file-pdf" data-name="Icon awesome-file-pdf"
+                                 d="M24.594,34.626c-.676-2.163-.663-6.341-.27-6.341C25.459,28.285,25.351,33.274,24.594,34.626Zm-.23,6.382a62.387,62.387,0,0,1-3.84,8.477,49.786,49.786,0,0,1,8.5-2.961A17.514,17.514,0,0,1,24.364,41.007ZM11.641,57.881c0,.108,1.785-.73,4.719-5.435C15.454,53.3,12.425,55.758,11.641,57.881Zm21.89-36.248H51.918V65.98a3.237,3.237,0,0,1-3.245,3.245H3.245A3.237,3.237,0,0,1,0,65.98V3.245A3.237,3.237,0,0,1,3.245,0H30.286V18.388A3.254,3.254,0,0,0,33.531,21.633ZM32.449,44.861a13.57,13.57,0,0,1-5.773-7.274c.608-2.5,1.568-6.3.838-8.68-.635-3.975-5.733-3.583-6.463-.919-.676,2.474-.054,5.963,1.1,10.411A126.96,126.96,0,0,1,16.63,50c-.014,0-.014.014-.027.014-3.664,1.879-9.951,6.017-7.369,9.194a4.2,4.2,0,0,0,2.907,1.352c2.42,0,4.827-2.434,8.261-8.356a77.069,77.069,0,0,1,10.681-3.137A20.49,20.49,0,0,0,39.737,51.7c3.948,0,4.218-4.327,2.664-5.868-1.879-1.839-7.342-1.311-9.951-.973ZM50.972,14.2,37.722.946A3.242,3.242,0,0,0,35.424,0h-.811V17.306H51.918v-.825A3.235,3.235,0,0,0,50.972,14.2ZM40.953,48.714c.554-.365-.338-1.609-5.787-1.217C40.183,49.634,40.953,48.714,40.953,48.714Z"
+                                 fill="#fff" />
+                           </svg>
+                        </a>
+                        <a href="#" class="filter__data__link">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="51.142" height="68.189"
+                              viewBox="0 0 51.142 68.189">
+                              <path id="Icon_awesome-file-alt" data-name="Icon awesome-file-alt"
+                                 d="M29.833,18.113V0H3.2A3.189,3.189,0,0,0,0,3.2v61.8a3.189,3.189,0,0,0,3.2,3.2H47.945a3.189,3.189,0,0,0,3.2-3.2V21.309H33.029A3.206,3.206,0,0,1,29.833,18.113Zm8.524,31.431a1.6,1.6,0,0,1-1.6,1.6H14.384a1.6,1.6,0,0,1-1.6-1.6V48.478a1.6,1.6,0,0,1,1.6-1.6H36.758a1.6,1.6,0,0,1,1.6,1.6Zm0-8.524a1.6,1.6,0,0,1-1.6,1.6H14.384a1.6,1.6,0,0,1-1.6-1.6V39.954a1.6,1.6,0,0,1,1.6-1.6H36.758a1.6,1.6,0,0,1,1.6,1.6Zm0-9.589V32.5a1.6,1.6,0,0,1-1.6,1.6H14.384a1.6,1.6,0,0,1-1.6-1.6V31.431a1.6,1.6,0,0,1,1.6-1.6H36.758A1.6,1.6,0,0,1,38.356,31.431Zm12.785-15.2v.812H34.094V0h.812a3.194,3.194,0,0,1,2.264.932L50.209,13.984A3.186,3.186,0,0,1,51.142,16.235Z"
+                                 fill="#fff" />
+                           </svg>
+                        </a>
+                        <a href="#" class="filter__data__link">
+                           <svg id="Icon_ionic-ios-print" data-name="Icon ionic-ios-print"
+                              xmlns="http://www.w3.org/2000/svg" width="68.188" height="68.189"
+                              viewBox="0 0 68.188 68.189">
+                              <path id="Path_3" data-name="Path 3"
+                                 d="M9,18.935V51.718a2.63,2.63,0,0,0,2.623,2.623H48.34a2.63,2.63,0,0,0,2.623-2.623V18.935a2.63,2.63,0,0,0-2.623-2.623H11.623A2.63,2.63,0,0,0,9,18.935Z"
+                                 transform="translate(4.113 13.848)" fill="#fff" />
+                              <g id="Group_116" data-name="Group 116" transform="translate(0 0)">
+                                 <path id="Path_4" data-name="Path 4"
+                                    d="M52.46,3.375H10.5A2.63,2.63,0,0,0,7.875,6V9.276a.658.658,0,0,0,.656.656h45.9a.658.658,0,0,0,.656-.656V6A2.63,2.63,0,0,0,52.46,3.375Z"
+                                    transform="translate(2.616 -3.375)" fill="#fff" />
+                                 <path id="Path_5" data-name="Path 5"
+                                    d="M66.4,7.875H8.7a5.245,5.245,0,0,0-5.327,5.131V41.592A5.385,5.385,0,0,0,8.7,46.887h2.541a1.315,1.315,0,0,0,1.311-1.311V28.2a4.582,4.582,0,0,1,4.59-4.59H57.795a4.582,4.582,0,0,1,4.59,4.59V45.576A1.315,1.315,0,0,0,63.7,46.887h2.7a5.244,5.244,0,0,0,5.163-5.294V13.006A5.1,5.1,0,0,0,66.4,7.875Z"
+                                    transform="translate(-3.375 2.616)" fill="#fff" />
+                              </g>
+                           </svg>
+                        </a>
+                     </div>
+                  </div>
+                  <div class="chart-financials-highlights">
+                     <p class="chart-financials-highlights__title">
+                        التفاصيل المالية <span class="chart-financials-highlights__title__type">
+                        (مليون ريال)
+                        </span>
+                     </p>
+                     <div class="chart-financials-highlights__data">
+                        <span id="chart-financials-highlights__data__pan-left"
+                           class="chart-financials-highlights__data__panner" data-scroll-modifier='-1'>
+                        <i class="far fa-arrow-alt-circle-left"></i>
+                        </span>
+                        <span id="chart-financials-highlights__data__pan-right"
+                           class="chart-financials-highlights__data__panner" data-scroll-modifier='1'>
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                        </span>
+                        <div class="chart-financials-highlights__data__container">
+                           <table class="chart-financials-highlights__data__table">
+                              <tr class="chart-financials-highlights__data__table__row">
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       التاريخ
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       السعر
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       التغير
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       التغير (%)
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       حجم التداول
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       قيمة التداول
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       الافتتاح
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       الأعلى
+                                    </p>
+                                 </th>
+                                 <th class="chart-financials-highlights__data__table__row__head">
+                                    <p class="chart-financials-highlights__data__table__row__head__text">
+                                       الأدنى
+                                    </p>
+                                 </th>
+                              </tr>
+                              <tr class="chart-financials-highlights__data__table__row" v-for="charts_Data in CompanyChart.chartsData">
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{new Date(charts_Data.forDate).toLocaleDateString('en-US')}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p class="chart-financials-highlights__data__table__row__body__text red">
+                                       {{formatter.format(charts_Data.close)}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p v-bind:class="'chart-financials-highlights__data__table__row__body__text ' + (charts_Data.change < 0 ? 'red' : 'green')">
+                                       {{charts_Data.change < 0 ? '(' + formatter.format(Math.abs(charts_Data.change)) + ')' : formatter.format(charts_Data.change)}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p v-bind:class="'chart-financials-highlights__data__table__row__body__text ' + (charts_Data.change < 0 ? 'red' : 'green')">
+                                       {{charts_Data.percentageChange < 0 ? '(' + formatter.format(Math.abs(charts_Data.percentageChange)) + ')' : formatter.format(charts_Data.percentageChange)}}%
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{charts_Data.volume}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{charts_Data.amount}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{charts_Data.open}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{charts_Data.max}}
+                                    </p>
+                                 </td>
+                                 <td class="chart-financials-highlights__data__table__row__body ">
+                                    <p class="chart-financials-highlights__data__table__row__body__text">
+                                       {{charts_Data.min}}
+                                    </p>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="t__page financial-statement" v-cloak>
+                  <div class="about" style="margin-bottom: 24px; width: 100%;">
+                     <div class="about__indicators">
+                         <p> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                         <p><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                         <p>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                 </div>
+                  <div class="main-financial-statement">
+                     <div class="main-financial-statement__title">
+                        <p class="main-financial-statement__title__name">القوائم المالية </p>
+                        <div class="main-financial-statement__title__options">
+                           <span class="main-financial-statement__title__options__currency">
+                           العملة :
+                           </span>
+                           <ul class="main-financial-statement__title__options__tabs">
+                              <li data-cont="main-financial-statement__usd" v-on:click="setCurrencyFinancialStatement('USD')" class="main-financial-statement__title__options__tabs__usd main-financial-statement__title__options__tabs__usd-ar">دولار</li>
+                              <li data-cont="main-financial-statement__sar" v-on:click="setCurrencyFinancialStatement('SAR')" class="active main-financial-statement__title__options__tabs__riyal main-financial-statement__title__options__tabs__riyal-ar">ريال</li>
+                           </ul>
+                           <a href="#" class="main-financial-statement__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="58.5" height="78" viewBox="0 0 58.5 78">
+                                 <path id="Icon_awesome-file-pdf" data-name="Icon awesome-file-pdf"
+                                    d="M27.711,39.015c-.762-2.437-.746-7.145-.3-7.145C28.686,31.87,28.565,37.492,27.711,39.015Zm-.259,7.191a70.3,70.3,0,0,1-4.327,9.552c2.788-1.066,5.941-2.62,9.582-3.336A19.734,19.734,0,0,1,27.452,46.206ZM13.117,65.218c0,.122,2.011-.823,5.317-6.124C17.413,60.054,14,62.827,13.117,65.218ZM37.781,24.375H58.5V74.344A3.647,3.647,0,0,1,54.844,78H3.656A3.647,3.647,0,0,1,0,74.344V3.656A3.647,3.647,0,0,1,3.656,0H34.125V20.719A3.667,3.667,0,0,0,37.781,24.375ZM36.563,50.548a15.29,15.29,0,0,1-6.505-8.2c.686-2.818,1.767-7.1.945-9.78-.716-4.479-6.459-4.037-7.282-1.036-.762,2.788-.061,6.718,1.234,11.73a143.053,143.053,0,0,1-6.216,13.071c-.015,0-.015.015-.03.015-4.129,2.118-11.213,6.779-8.3,10.359a4.734,4.734,0,0,0,3.275,1.523c2.727,0,5.439-2.742,9.308-9.415,3.93-1.295,8.242-2.91,12.035-3.534a23.088,23.088,0,0,0,9.75,2.971c4.448,0,4.753-4.875,3-6.612-2.118-2.072-8.272-1.478-11.213-1.1ZM57.434,16,42.5,1.066A3.654,3.654,0,0,0,39.914,0H39V19.5H58.5v-.929A3.645,3.645,0,0,0,57.434,16ZM46.145,54.889c.625-.411-.381-1.813-6.52-1.371C45.277,55.925,46.145,54.889,46.145,54.889Z" />
+                              </svg>
+                           </a>
+                           <a href="#" class="main-financial-statement__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="57.625" height="76.833"
+                                 viewBox="0 0 57.625 76.833">
+                                 <path id="Icon_awesome-file-alt" data-name="Icon awesome-file-alt"
+                                    d="M33.614,20.409V0H3.6A3.593,3.593,0,0,0,0,3.6v69.63a3.593,3.593,0,0,0,3.6,3.6H54.023a3.593,3.593,0,0,0,3.6-3.6V24.01H37.216A3.612,3.612,0,0,1,33.614,20.409Zm9.6,35.415a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418a1.806,1.806,0,0,1,1.8,1.8Zm0-9.6a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418a1.806,1.806,0,0,1,1.8,1.8Zm0-10.8v1.2a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418A1.806,1.806,0,0,1,43.219,35.415ZM57.625,18.293v.915H38.417V0h.915a3.6,3.6,0,0,1,2.551,1.05L56.574,15.757A3.59,3.59,0,0,1,57.625,18.293Z" />
+                              </svg>
+                           </a>
+                           <a href="#" class="main-financial-statement__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="76.833" height="76.833"
+                                 viewBox="0 0 76.833 76.833">
+                                 <g id="Icon_ionic-ios-print" data-name="Icon ionic-ios-print" transform="translate(0 0)">
+                                    <path id="Path_3" data-name="Path 3"
+                                       d="M9,19.268V56.206a2.964,2.964,0,0,0,2.955,2.955H53.327a2.964,2.964,0,0,0,2.955-2.955V19.268a2.964,2.964,0,0,0-2.955-2.955H11.955A2.964,2.964,0,0,0,9,19.268Z"
+                                       transform="translate(5.776 17.671)" />
+                                    <g id="Group_116" data-name="Group 116" transform="translate(0 0)">
+                                       <path id="Path_4" data-name="Path 4"
+                                          d="M58.112,3.375H10.83A2.964,2.964,0,0,0,7.875,6.33v3.694a.741.741,0,0,0,.739.739H60.328a.741.741,0,0,0,.739-.739V6.33A2.964,2.964,0,0,0,58.112,3.375Z"
+                                          transform="translate(3.945 -3.375)" />
+                                       <path id="Path_5" data-name="Path 5"
+                                          d="M74.39,7.875H9.378a5.91,5.91,0,0,0-6,5.781V45.867a6.067,6.067,0,0,0,6,5.966H12.24a1.482,1.482,0,0,0,1.478-1.478V30.777a5.163,5.163,0,0,1,5.171-5.171h45.8a5.163,5.163,0,0,1,5.171,5.171V50.355a1.482,1.482,0,0,0,1.478,1.478H74.39a5.909,5.909,0,0,0,5.818-5.966V13.656A5.751,5.751,0,0,0,74.39,7.875Z"
+                                          transform="translate(-3.375 3.945)" />
+                                    </g>
+                                 </g>
+                              </svg>
+                           </a>
+                        </div>
+                     </div>
+                     <ul class="main-financial-statement__tabs">
+                        <li data-cont=".fs-tab-year" class="active" @click="fetchCompanyFStatementsForPeriod('year')">سنوي</li>
+                        <li data-cont=".fs-tab-quarter" @click="fetchCompanyFStatementsForPeriod('quarter')">ربعي</li>
+                        <li data-cont=".fs-tab-interim" @click="fetchCompanyFStatementsForPeriod('interim')">مرحلي</li>
+                     </ul>
+                     <div id="financialStatementMain">
+                        <div class="financial-statement company-fsa fs-annual">
+                           <div id="divExcelTable" class="clear aplusholdBM scrollbar2 divExcelTable">
+                              <div class="widget arb" style="position: relative;">
+                                 <span class="fs-sc-arr-right fs-annual-panner" data-scroll-modifier="1">
+                                 <i class="far fa-arrow-alt-circle-left"></i>
+                                 </span>
+                                 <span class="fs-sc-arr-left-mobile fs-annual-panner" data-scroll-modifier="-1">
+                                    <i class="far fa-arrow-alt-circle-right"></i>
+                                </span>
+                                 <div class="divExcelTable scroll-container">
+                                    <table id="companyFinancialResult" class="table clear" width="100%" cellspacing="0"
+                                       cellpadding="0">
+                                       <thead id="periodrow">
+                                          <tr class="year group1">
+                                             <th class="argaam-font col_sticky mobile-change-bg" style="padding: 0;">
+                                                <div>
+                                                   <span class="fs-sc-arr-left fs-annual-panner" data-scroll-modifier="-1">
+                                                   <i class="far fa-arrow-alt-circle-right"></i>
+                                                   </span>
+                                                </div>
+                                             </th>
+                                             <th style="min-width:40px; max-width:40px; background-color: #029243;"></th>
+                                             <th class="center shadow bold" v-for="value in CompanyFStatements.tabs[0].fields[0].values">
+                                                <span class="">
+                                                {{value.fiscalPeriod}}
+                                                </span>
+                                             </th>
+                                          </tr>
+                                          <tr style="height: 15px;"></tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr class="group1 argaam-font" style="border-top: 1px solid black;">
+                                             <th class="argaam-font col_sticky col_bg bold">التفاصيل</th>
+                                             <th style="min-width:40px; max-width:40px; ">
+                                             </th>
+                                             <th class="center" style="background-color: white;" v-for="value in CompanyFStatements.tabs[0].fields[0].values">
+                                                مليون  <span class="st-currency st-currency-ar">ريال</span>
+                                             </th>
+                                          </tr>
+                                          <tr class="dummy">
+                                             <th colspan="9"></th>
+                                          </tr>
+                                          <!-- Income Statement -->
+                                          <template v-show="CompanyFStatements.tabs[0].fields[0].values" v-for="(tab, _indx) in CompanyFStatements.tabs">
+                                             <tr class=" level1">
+                                                <td class="argaam-font col_sticky">
+                                                   <span class="fOpen" v-bind:id="'btn' + (_indx + 1 *1000)" @click="return showHideSubStatement((_indx + 1 *1000));" data-childviewstatus="open"></span>
+                                                   {{tab.tabNameAr}}
+                                                </td>
+                                             </tr>
+                                             <tr class="row-border">
+                                                <td colspan="100">
+                                                </td>
+                                             </tr>
+                                             <tr class="level2 level2tds" v-for="field in tab.fields" v-bind:data-substatatementid="(_indx + 1 *1000)" data-ischildelement="no" data-haschildelementdata="no" style="">
+                                                <td class="argaam-font-normal">
+                                                   <div>
+                                                      {{field.displayNameAr}}
+                                                   </div>
+                                                </td>
+                                                <td class="columchart">
+                                                   <span class="chart-btn fs-chart-btn" v-on:click="showChartForFinancialStatement(field)">
+                                                      <svg class="" xmlns="http://www.w3.org/1/svg" width="20" height="20"
+                                                         viewBox="0 0 56 56">
+                                                         <path id="Icon_material-insert-chart"
+                                                            data-name="Icon material-insert-chart"
+                                                            d="M54.278,4.5H10.722A6.241,6.241,0,0,0,4.5,10.722V54.278A6.241,6.241,0,0,0,10.722,60.5H54.278A6.241,6.241,0,0,0,60.5,54.278V10.722A6.241,6.241,0,0,0,54.278,4.5ZM23.167,48.056H16.944V26.278h6.222Zm12.444,0H29.389V16.944h6.222Zm12.444,0H41.833V35.611h6.222Z"
+                                                            transform="translate(-4.5 -4.5)" fill="#fff"></path>
+                                                      </svg>
+                                                   </span>
+                                                </td>
+                                                <td v-for="val in field.values" v-bind:class="'colum ' + _indx + ' ' + cssClassForValue(val)">
+                                                   <span>
+                                                   {{fomratedValue(val, field.displayNameEn)}}
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          </template>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="fs-popup">
+                     <div class="fs-popup__overlay">
+                        <div class="fs-popup__overlay__chart">
+                           <div class="fs-popup__overlay__chart__close">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="29.628" height="29.628" viewBox="0 0 29.628 29.628">
+                                 <path id="Icon_ionic-md-close-circle" data-name="Icon ionic-md-close-circle" d="M18.189,3.375A14.814,14.814,0,1,0,33,18.189,14.763,14.763,0,0,0,18.189,3.375ZM25.6,23.522,23.522,25.6l-5.333-5.333L12.856,25.6l-2.074-2.074,5.333-5.333-5.333-5.333,2.074-2.074,5.333,5.333,5.333-5.333L25.6,12.856l-5.333,5.333Z" transform="translate(-3.375 -3.375)"/>
+                             </svg> 
+                           </div>
+                           <div class="fs-popup__overlay__chart__graph">
+                              <div id="fs_details_chart" style="width:100%; height:260px;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="t__page financial-ratio" v-cloak>
+                  <div class="about" style="margin-bottom: 24px; width: 100%;">
+                     <div class="about__indicators">
+                         <p> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                         <p><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                         <p>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                 </div>
+                  <div class="main-financial-ratio">
+                     <div class="main-financial-ratio__title">
+                        <p class="main-financial-ratio__title__name">المؤشرات المالية</p>
+                        <div class="main-financial-ratio__title__options">
+                           <span class="main-financial-ratio__title__options__currency">
+                           العملة :
+                           </span>
+                           <ul class="main-financial-ratio__title__options__tabs">
+                              <li data-cont="main-financial-ratio__usd" v-on:click="setCurrencyFinancialRatios('USD')" class="main-financial-ratio__title__options__tabs__usd main-financial-ratio__title__options__tabs__usd-ar">دولار</li>
+                              <li data-cont="main-financial-ratio__sar" v-on:click="setCurrencyFinancialRatios('SAR')" class="active main-financial-ratio__title__options__tabs__riyal main-financial-ratio__title__options__tabs__riyal-ar">ريال</li>
+                           </ul>
+                           <a href="#" class="main-financial-ratio__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="58.5" height="78" viewBox="0 0 58.5 78">
+                                 <path id="Icon_awesome-file-pdf" data-name="Icon awesome-file-pdf"
+                                    d="M27.711,39.015c-.762-2.437-.746-7.145-.3-7.145C28.686,31.87,28.565,37.492,27.711,39.015Zm-.259,7.191a70.3,70.3,0,0,1-4.327,9.552c2.788-1.066,5.941-2.62,9.582-3.336A19.734,19.734,0,0,1,27.452,46.206ZM13.117,65.218c0,.122,2.011-.823,5.317-6.124C17.413,60.054,14,62.827,13.117,65.218ZM37.781,24.375H58.5V74.344A3.647,3.647,0,0,1,54.844,78H3.656A3.647,3.647,0,0,1,0,74.344V3.656A3.647,3.647,0,0,1,3.656,0H34.125V20.719A3.667,3.667,0,0,0,37.781,24.375ZM36.563,50.548a15.29,15.29,0,0,1-6.505-8.2c.686-2.818,1.767-7.1.945-9.78-.716-4.479-6.459-4.037-7.282-1.036-.762,2.788-.061,6.718,1.234,11.73a143.053,143.053,0,0,1-6.216,13.071c-.015,0-.015.015-.03.015-4.129,2.118-11.213,6.779-8.3,10.359a4.734,4.734,0,0,0,3.275,1.523c2.727,0,5.439-2.742,9.308-9.415,3.93-1.295,8.242-2.91,12.035-3.534a23.088,23.088,0,0,0,9.75,2.971c4.448,0,4.753-4.875,3-6.612-2.118-2.072-8.272-1.478-11.213-1.1ZM57.434,16,42.5,1.066A3.654,3.654,0,0,0,39.914,0H39V19.5H58.5v-.929A3.645,3.645,0,0,0,57.434,16ZM46.145,54.889c.625-.411-.381-1.813-6.52-1.371C45.277,55.925,46.145,54.889,46.145,54.889Z" />
+                              </svg>
+                           </a>
+                           <a href="#" class="main-financial-ratio__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="57.625" height="76.833"
+                                 viewBox="0 0 57.625 76.833">
+                                 <path id="Icon_awesome-file-alt" data-name="Icon awesome-file-alt"
+                                    d="M33.614,20.409V0H3.6A3.593,3.593,0,0,0,0,3.6v69.63a3.593,3.593,0,0,0,3.6,3.6H54.023a3.593,3.593,0,0,0,3.6-3.6V24.01H37.216A3.612,3.612,0,0,1,33.614,20.409Zm9.6,35.415a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418a1.806,1.806,0,0,1,1.8,1.8Zm0-9.6a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418a1.806,1.806,0,0,1,1.8,1.8Zm0-10.8v1.2a1.806,1.806,0,0,1-1.8,1.8H16.207a1.806,1.806,0,0,1-1.8-1.8v-1.2a1.806,1.806,0,0,1,1.8-1.8H41.418A1.806,1.806,0,0,1,43.219,35.415ZM57.625,18.293v.915H38.417V0h.915a3.6,3.6,0,0,1,2.551,1.05L56.574,15.757A3.59,3.59,0,0,1,57.625,18.293Z" />
+                              </svg>
+                           </a>
+                           <a href="#" class="main-financial-ratio__title__options__link">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="76.833" height="76.833"
+                                 viewBox="0 0 76.833 76.833">
+                                 <g id="Icon_ionic-ios-print" data-name="Icon ionic-ios-print" transform="translate(0 0)">
+                                    <path id="Path_3" data-name="Path 3"
+                                       d="M9,19.268V56.206a2.964,2.964,0,0,0,2.955,2.955H53.327a2.964,2.964,0,0,0,2.955-2.955V19.268a2.964,2.964,0,0,0-2.955-2.955H11.955A2.964,2.964,0,0,0,9,19.268Z"
+                                       transform="translate(5.776 17.671)" />
+                                    <g id="Group_116" data-name="Group 116" transform="translate(0 0)">
+                                       <path id="Path_4" data-name="Path 4"
+                                          d="M58.112,3.375H10.83A2.964,2.964,0,0,0,7.875,6.33v3.694a.741.741,0,0,0,.739.739H60.328a.741.741,0,0,0,.739-.739V6.33A2.964,2.964,0,0,0,58.112,3.375Z"
+                                          transform="translate(3.945 -3.375)" />
+                                       <path id="Path_5" data-name="Path 5"
+                                          d="M74.39,7.875H9.378a5.91,5.91,0,0,0-6,5.781V45.867a6.067,6.067,0,0,0,6,5.966H12.24a1.482,1.482,0,0,0,1.478-1.478V30.777a5.163,5.163,0,0,1,5.171-5.171h45.8a5.163,5.163,0,0,1,5.171,5.171V50.355a1.482,1.482,0,0,0,1.478,1.478H74.39a5.909,5.909,0,0,0,5.818-5.966V13.656A5.751,5.751,0,0,0,74.39,7.875Z"
+                                          transform="translate(-3.375 3.945)" />
+                                    </g>
+                                 </g>
+                              </svg>
+                           </a>
+                        </div>
+                     </div>
+                     <ul class="main-financial-ratio__tabs">
+                        <li data-cont=".fr-tab-year" @click="fetchCompanyFRatiosForPeriod('year')" class="active">سنوي</li>
+                        <li data-cont=".fr-tab-quarter" @click="fetchCompanyFRatiosForPeriod('quarter')">  اخر 12</li>
+                        <li data-cont=".fr-tab-interim" @click="fetchCompanyFRatiosForPeriod('interim')">معدل سنويا</li>
+                     </ul>
+                     <div id="financialRatioMain">
+                        <div class="financial-ratio company-fra ra-annual">
+                           <div id="divExcelTable" class="clear aplusholdBM scrollbar2 divExcelTable">
+                              <div class="widget arb" style="position: relative;">
+                                 <span class="fr-sc-arr-right ra-annual-panner" data-scroll-modifier="1">
+                                 <i class="far fa-arrow-alt-circle-left"></i>
+                                 </span>
+                                 <span class="fr-sc-arr-left-mobile ra-annual-panner" data-scroll-modifier="-1">
+                                    <i class="far fa-arrow-alt-circle-right"></i>
+                                </span>
+                                 <div class="divExcelTable scroll-container">
+                                    <table id="companyFinancialResult" class="table clear" width="100%" cellspacing="0"
+                                       cellpadding="0">
+                                       <thead id="periodrow">
+                                          <tr class="year group1">
+                                             <th class="argaam-font col_sticky mobile-change-bg" style="padding: 0;">
+                                                <div>
+                                                   <span class="fr-sc-arr-left ra-annual-panner" data-scroll-modifier="-1">
+                                                   <i class="far fa-arrow-alt-circle-right"></i>
+                                                   </span>
+                                                </div>
+                                             </th>
+                                             <th style="min-width:40px; max-width:40px; background-color: #029243;"></th>
+                                             <th class="center shadow bold" v-for="value in CompanyFRatios.financialRatioFieldsGroups[0].financialRatioFieldsGroupFields[0].values">
+                                                <span v-show="value.period.replace('-', '')" class="">
+                                                {{value.period}}
+                                                </span>
+                                                <span v-show="value.year && !value.period.replace('-', '')" class="">
+                                                {{value.year}}
+                                                </span>
+                                             </th>
+                                          </tr>
+                                          <tr style="height: 15px;"></tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr class="group1 argaam-font" style="border-top: 1px solid black;">
+                                             <th class="argaam-font col_sticky col_bg bold">التفاصيل </th>
+                                             <th style="min-width:40px; max-width:40px; ">
+                                             </th>
+                                             <th class="center" style="background-color: white;" v-for="value in CompanyFRatios.financialRatioFieldsGroups[0].financialRatioFieldsGroupFields[0].values">
+                                                مليون  <span class="ra-currency ra-currency-ar">ريال</span>
+                                             </th>
+                                          </tr>
+                                          <tr class="dummy">
+                                             <th colspan="9"></th>
+                                          </tr>
+                                          <!-- Per Share Data -->
+                                          <template v-show="CompanyFRatios.financialRatioFieldsGroups[0].financialRatioFieldsGroupFields[0].values" v-for="(ratioGroup, _indx) in CompanyFRatios.financialRatioFieldsGroups">
+                                             <tr class=" level1">
+                                                <td class="argaam-font col_sticky">
+                                                   <span class="fOpen" v-bind:id="'btn' + (_indx + 1 *4000)" @click="return showHideSubStatement((_indx + 1 *4000));" data-childviewstatus="open"></span>
+                                                   {{ratioGroup.fieldGroupAr}}
+                                                </td>
+                                             </tr>
+                                             <tr class="row-border">
+                                                <td colspan="100">
+                                                </td>
+                                             </tr>
+                                             <tr class="level2 level2tds" v-for="field in ratioGroup.financialRatioFieldsGroupFields" v-bind:data-substatatementid="(_indx + 1 *4000)" data-ischildelement="no" data-haschildelementdata="no" style="">
+                                                <td class="argaam-font-normal">
+                                                   <div>
+                                                      {{field.nameAr}}
+                                                   </div>
+                                                </td>
+                                                <td class="columchart fr-chart-btn" v-on:click="showChartForFinancialRatio(field)">
+                                                   <span class="chart-btn">
+                                                      <svg class="" xmlns="http://www.w3.org/1/svg" width="20" height="20"
+                                                         viewBox="0 0 56 56">
+                                                         <path id="Icon_material-insert-chart"
+                                                            data-name="Icon material-insert-chart"
+                                                            d="M54.278,4.5H10.722A6.241,6.241,0,0,0,4.5,10.722V54.278A6.241,6.241,0,0,0,10.722,60.5H54.278A6.241,6.241,0,0,0,60.5,54.278V10.722A6.241,6.241,0,0,0,54.278,4.5ZM23.167,48.056H16.944V26.278h6.222Zm12.444,0H29.389V16.944h6.222Zm12.444,0H41.833V35.611h6.222Z"
+                                                            transform="translate(-4.5 -4.5)" fill="#fff"></path>
+                                                      </svg>
+                                                   </span>
+                                                </td>
+                                                <td v-for="val in field.values" v-bind:class="'colum ' + _indx + ' ' + cssClassForValue(val)">
+                                                   <span>
+                                                   {{fomratedValue(val, field.nameEn)}}
+                                                   </span>
+                                                </td>
+                                             </tr>
+                                          </template>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="fr-popup">
+                     <div class="fr-popup__overlay">
+                        <div class="fr-popup__overlay__chart">
+                           <div class="fr-popup__overlay__chart__close">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="29.628" height="29.628" viewBox="0 0 29.628 29.628">
+                                 <path id="Icon_ionic-md-close-circle" data-name="Icon ionic-md-close-circle" d="M18.189,3.375A14.814,14.814,0,1,0,33,18.189,14.763,14.763,0,0,0,18.189,3.375ZM25.6,23.522,23.522,25.6l-5.333-5.333L12.856,25.6l-2.074-2.074,5.333-5.333-5.333-5.333,2.074-2.074,5.333,5.333,5.333-5.333L25.6,12.856l-5.333,5.333Z" transform="translate(-3.375 -3.375)"/>
+                             </svg> 
+                           </div>
+                           <div class="fr-popup__overlay__chart__graph">
+                              <div id="fr_details_chart" style="width:100%; height:260px;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="t__page dividend-information" v-cloak>
+                  <div class="about" style="margin-bottom: 24px; width: 100%;">
+                     <div class="about__indicators">
+                         <p> {{formatter.format(CompanyOverview.prices[0].closeValue)}}</p>
+                         <p><i v-bind:class="'fas fa-caret-'+(CompanyOverview.prices[0].change < 0 ?'down' : 'up')"></i>  {{CompanyOverview.prices[0].change < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].change)) + ')' : formatter.format(CompanyOverview.prices[0].change)}}</p>
+                         <p>{{CompanyOverview.prices[0].percentageChange < 0 ? '(' + formatter.format(Math.abs(CompanyOverview.prices[0].percentageChange)) + ')' : formatter.format(CompanyOverview.prices[0].percentageChange)}} %</p>
+                     </div>
+                 </div>
+                  <div class="capital-change">
+                     <p class="capital-change__title">تطور رأس المال</p>
+                     <div class="capital-change__graph">
+                        <div id="capital_change_chart" style="width:100%; height:360px;"></div>
+                     </div>
+                  </div>
+                  <div class="historical-dividends" v-if="CorporateActions.capitalDividendHistory.length > 0">
+                     <p class="historical-dividends__title">تطور التوزيعات النقدية</p>
+                     <div class="historical-dividends__graph">
+                        <div id="historical_dividends_chart" style="width:100%; height:360px;"></div>
+                     </div>
+                  </div>
+                  <div class="main-corporate-actions">
+                     <ul class="main-corporate-actions__tabs">
+                        <li data-cont=".main-corporate-actions__capital-changes" class="active">التطور التاريخي لتغيرات رأس المال</li>
+                        <li data-cont=".main-corporate-actions__dividend-history" v-if="CorporateActions.capitalDividendHistory.length > 0">التطور التاريخي للتوزيعات النقدية</li>
+                     </ul>
+                     <span id="main-corporate-actions__pan-left" class="main-corporate-actions__panner"
+                        data-scroll-modifier='-1'>
+                     <i class="far fa-arrow-alt-circle-left"></i>
+                     </span>
+                     <span id="main-corporate-actions__pan-right" class="main-corporate-actions__panner"
+                        data-scroll-modifier='1'>
+                     <i class="far fa-arrow-alt-circle-right"></i>
+                     </span>
+                     <div class="main-corporate-actions__container">
+                        <div class="main-corporate-actions__capital-changes">
+                           <table class="main-corporate-actions__capital-changes__table">
+                              <tr class="main-corporate-actions__capital-changes__table__row" style="border: unset;">
+                                 <th></th>
+                                 <th></th>
+                                 <th colspan="2" style="text-align: center; padding-left: 15px;"
+                                    class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       قبل التغيير
+                                    </p>
+                                 </th>
+                                 <th colspan="2" style="text-align: center; padding-left: 15px;"
+                                    class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       بعد التغيير
+                                    </p>
+                                 </th>
+                                 <th></th>
+                                 <th></th>
+                                 <th></th>
+                              </tr>
+                              <tr class="main-corporate-actions__capital-changes__table__row">
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       التاريخ
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       النوع
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       رأس المال (مليون ريال)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       عدد الأسهم (مليون)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       رأس المال (مليون ريال)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       عدد الأسهم (مليون)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       معدل التغير
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       ملاحظات
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__capital-changes__table__row__header">
+                                    <p class="main-corporate-actions__capital-changes__table__row__header__text">
+                                       رابط
+                                    </p>
+                                 </th>
+                              </tr>
+                              <tr class="main-corporate-actions__capital-changes__table__row" v-for="capitalChange_history in CorporateActions.capitalChangeHistory">
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{new Date(capitalChange_history.tableDate).toLocaleDateString('en-US')}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.typeEn}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.currentCapital}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.currentShares}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.newCapital}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.newShares}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.changeRate}} %
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <p class="main-corporate-actions__capital-changes__table__row__data__text">
+                                       {{capitalChange_history.notesEn}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__capital-changes__table__row__data">
+                                    <a v-show="capitalChange_history.linkEn" v-bind:href="'capitalChange_history.linkEn'"
+                                       class="main-corporate-actions__capital-changes__table__row__data__link">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="39.582" height="39.582"
+                                          viewBox="0 0 39.582 39.582">
+                                          <path id="Icon_awesome-link" data-name="Icon awesome-link"
+                                             d="M25.25,14.332a11.745,11.745,0,0,1,.028,16.59l-.028.029-5.2,5.2A11.751,11.751,0,0,1,3.437,19.527l2.869-2.869a1.236,1.236,0,0,1,2.11.82,14.245,14.245,0,0,0,.749,4.076,1.244,1.244,0,0,1-.292,1.284L7.86,23.851a5.566,5.566,0,1,0,7.821,7.922l5.2-5.194a5.565,5.565,0,0,0,0-7.872,5.791,5.791,0,0,0-.8-.662,1.24,1.24,0,0,1-.537-.975,3.079,3.079,0,0,1,.9-2.3l1.628-1.628A1.242,1.242,0,0,1,23.663,13a11.788,11.788,0,0,1,1.587,1.329Zm10.9-10.9a11.764,11.764,0,0,0-16.618,0l-5.2,5.2L14.3,8.66a11.753,11.753,0,0,0,1.614,17.919,1.242,1.242,0,0,0,1.591-.134l1.628-1.628a3.079,3.079,0,0,0,.9-2.3,1.24,1.24,0,0,0-.537-.975,5.791,5.791,0,0,1-.8-.662,5.565,5.565,0,0,1,0-7.872L23.9,7.81a5.566,5.566,0,1,1,7.821,7.922L30.71,16.743a1.244,1.244,0,0,0-.292,1.284,14.245,14.245,0,0,1,.749,4.076,1.236,1.236,0,0,0,2.11.82l2.869-2.869a11.763,11.763,0,0,0,0-16.618Z"
+                                             fill="#fff" />
+                                       </svg>
+                                    </a>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                        <div class="main-corporate-actions__dividend-history" v-if="CorporateActions.capitalDividendHistory.length > 0">
+                           <table class="main-corporate-actions__dividend-history__table">
+                              <tr class="main-corporate-actions__dividend-history__table__row">
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       تاريخ الإعلان
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       إجمالي التوزيعات
+                                       النقدية (مليون ريال)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       التوزيع النقدي
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       إجمالي التوزيعات
+                                       النقدية (مليون ريال)
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       التوزيع النقدي
+                                    </p>
+                                 </th>
+                                 <th class="main-corporate-actions__dividend-history__table__row__header">
+                                    <p class="main-corporate-actions__dividend-history__table__row__header__text">
+                                       ملاحظات
+                                    </p>
+                                 </th>
+                              </tr>
+                              <tr class="main-corporate-actions__dividend-history__table__row" v-for="capitalDividend_history in CorporateActions.capitalDividendHistory">
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{new Date(capitalDividend_history.dividendAnnouncedDate).toLocaleDateString('en-US')}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{new Date(capitalDividend_history.dividendDueDate).toLocaleDateString('en-US')}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{new Date(capitalDividend_history.dividendDate).toLocaleDateString('en-US')}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{capitalDividend_history.cashDividend}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{capitalDividend_history.cashDividendPerShare}}
+                                    </p>
+                                 </td>
+                                 <td class="main-corporate-actions__dividend-history__table__row__data">
+                                    <p class="main-corporate-actions__dividend-history__table__row__data__text">
+                                       {{capitalDividend_history.notesEn}}
+                                    </p>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="footer">
+            <img src="assets/footer.jpg" alt="" style="display: block; width: 100%; object-fit: cover;">
+         </div>
+      </div>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/moment.js"></script>
+      <script src="js/jquery.preloadinator.min.js"></script>
+      <script src="js/pignose.calendar.min.js"></script>
+      <script src="js/axios.min.js"></script>
+      <script src="js/app-config.js?v=73837"></script>
+      <script src="js/tanmiahApp.js?v=73838"></script>
+      <script src="js/main.js"></script>
+   </body>
+</html>

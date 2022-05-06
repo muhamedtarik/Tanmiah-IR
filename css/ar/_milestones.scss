@@ -1,0 +1,123 @@
+.milestones{
+    background-color: $main-background;
+    border-radius: unset;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 100%;
+    position: relative;
+&__title{
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 15px;
+    background-color: $main-color;
+    color: $white;
+}
+&__container{
+    padding: 15px;
+}
+&__list{
+    list-style-type: none;
+    padding-left: 0px;
+    color: $black;
+    &__item{
+        border-bottom: 1px solid $black;
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 13px;
+        padding-bottom: 2px;
+        @media (min-width:530px) and (max-width:849px){
+            margin-bottom: 6px;
+            padding-bottom: 3px;
+        }
+        @media (min-width:370px) and (max-width:529px){
+            margin-bottom: 6px;
+            padding-bottom: 3px;
+        }
+        @media (max-width:369px){
+            margin-bottom: 6px;
+            padding-bottom: 3px;
+        }
+        &:nth-child(11){
+            padding-bottom: 12px;
+        }
+        &__name{
+            text-align: right;
+            width: 70%;
+            font-size: 15px;
+            @media(min-width:1100px) and (max-width:1200px){
+                width: 65%;
+            }
+            @media(min-width:1201px){
+                width: 55%;
+            }
+            @media (min-width:850px) and (max-width:1025px){
+                width: 80%;
+            }
+            @media (min-width:530px) and (max-width:849px){
+                width: 75%;
+                font-size: 14px;
+            }
+            @media (min-width:370px) and (max-width:529px){
+                width: 70%;
+                font-size: 13px;
+            }
+            @media (max-width:369px){
+                width: 70%;
+                font-size: 12px;
+            }
+        }
+        &__number{
+            width: 30%;
+            font-size: 15px;
+            @media(min-width:1100px) and (max-width:1200px){
+                width: 35%;
+            }
+            @media(min-width:1201px){
+                width: 45%;
+            }
+            @media (min-width:850px) and (max-width:1025px){
+                width: 20%;
+            }
+            @media (min-width:530px) and (max-width:849px){
+                width: 25%;
+                font-size: 14px;
+            }
+            @media (min-width:370px) and (max-width:529px){
+                width: 30%;
+                font-size: 13px;
+            }
+            @media (max-width:369px){
+                width: 35%;
+                font-size: 12px;
+            }
+        }
+    }
+}
+&__more{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    //position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-top: 1px solid $black;
+    color: $black;
+    text-decoration: none;
+    &:hover{
+        color: $black;
+        text-decoration: none;
+    }
+    &__name{
+
+    }
+    &__icon{
+        font-size: 13px;
+        color: $main-color;
+    }
+}
+}
+
+
+

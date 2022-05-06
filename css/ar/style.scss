@@ -1,0 +1,95 @@
+@import './colors';
+@import './fonts';
+@import './header';
+@import './side-bar';
+@import './mobile-tabs';
+@import './ticker';
+@import './market-value';
+@import './contact-ir';
+@import './about';
+@import './capital-change';
+@import './historical-dividends';
+@import './main-corporate-actions';
+@import './main-financial-ratios';
+@import './main-financial-statements';
+@import './intro';
+@import './financials-highlights';
+@import './trading-data';
+@import './milestones';
+@import './stock-information';
+@import './subsidiaries-associates';
+@import './chart-financials-highlights';
+@import './filter';
+@import './main-chart';
+
+html{
+    scroll-behavior: smooth;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+body {
+    direction: rtl;
+    font-family: 'Hacen Tunisia Lt';
+    overflow-x: hidden;
+    //   &::-webkit-scrollbar {
+    //      width: 0.4em;
+    //       background-color: $white;
+    //   }
+    //   &::-webkit-scrollbar-track {
+    //       box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    //  }
+    //   &::-webkit-scrollbar-thumb {
+    //      background-color: $main-color;
+    //      border-radius: 2px;
+    //  }
+     ::-moz-selection {
+        color: $main-color;
+        background: #F5D256;
+      }          
+      ::selection {
+        color: $main-color;
+        background: #F5D256;
+      }
+      color: $black;
+}
+
+  .green{
+      color: $green;
+  }
+  .red{
+      color:$red;
+  }
+
+
+  .main{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 24px 15px;
+    max-width: 1400px;
+    margin: auto;
+    @media(max-width: 949px){
+      padding: 24px 5px;
+      &.sticky-menu{
+        padding-top: 96px;
+      }
+  }
+  }
+
+.hide-scroll{
+    overflow-y: hidden;
+}

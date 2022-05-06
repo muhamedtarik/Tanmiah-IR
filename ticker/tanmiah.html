@@ -1,0 +1,344 @@
+<style>
+    .ticker-chart {
+    display: flex;
+    background-color: #fff;
+    padding: 16px;
+    border: 1px solid darkgreen;
+    position: relative;
+    }
+    .ticker-chart__data {
+    width: 25%;
+    }
+    .ticker-chart__graph {
+    width: 75%;
+    }
+    .ticker-chart__graph img {
+    width: 100%;
+    object-fit: cover;
+    }
+    .ticker-chart__name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #9e2e40;
+    color: #fff;
+    padding: 5px 15px;
+    }
+    .ticker-chart__data_container {
+    margin-bottom: 15px;
+    }
+    .ticker-chart__data_container__name {
+    margin-bottom: 0px;
+    color: #4D4D4D;
+    line-height: 18px;
+    margin-top: 0px;
+    }
+    .ticker-chart__data_container__value {
+    margin-bottom: 0px;
+    color: darkgreen;
+    line-height: 18px;
+    border-bottom: 1px solid darkgreen;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    margin-top: 0px;
+    }
+    .ticker-chart__data_container__value__first{
+    margin: 0px 10px;
+    }
+    .highcharts-exporting-group{
+    display: none;
+    }
+    .highcharts-credits{
+    display: none
+    }
+    .graph-tabs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    }
+    .graph-tabs__item{
+    color: #4D4D4D;
+    cursor: pointer;
+    }
+    .active-graph-tabs__item{
+    background-color:darkgreen;
+    color: #fff;
+    border-radius: 5px;
+    padding: 6px 6px;
+    }
+    @media(min-width:992px) {
+    .ticker-chart__graph {
+    width: 70%;
+    margin-left: 5%;
+    }
+    }
+    @media(max-width:991px) {
+    .ticker-chart {
+    display: block;
+    }
+    .ticker-chart__data {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    }
+    .ticker-chart__data_container{
+    margin-bottom: 5px;
+    }
+    .ticker-chart__data_container__name{
+    margin-top: 0px;
+    }
+    .ticker-chart__data_container__value{
+    margin-top: 5px;
+    }
+    .ticker-chart__graph {
+    width: 100%;
+    margin-bottom: 30px;
+    }
+    .graph-tabs{
+    margin-top: 20px;
+    }
+    }
+    @media(min-width:992px) and (max-width:1200px) {
+    .ticker-chart__data_container:last-child {
+    margin-bottom: 35px;
+    }
+    }
+    @media(max-width:767px) {
+    .ticker-chart {
+    margin-bottom: 30px;
+    }
+    }
+ </style>
+ <div id="tickerApp" class="vc_column_container col-md-6">
+    <div class="ticker-chart">
+       <div class="ticker-chart__data">
+          <div class="ticker-chart__data_container">
+             <p class="ticker-chart__data_container__name">Ticker</p>
+             <p class="ticker-chart__data_container__value">Tanmiah food Co.</p>
+          </div>
+          <div class="ticker-chart__data_container">
+             <p class="ticker-chart__data_container__name">Price</p>
+             <p class="ticker-chart__data_container__value">{{formatter.format(Prices.closeValue)}}</p>
+          </div>
+          <div class="ticker-chart__data_container">
+             <p class="ticker-chart__data_container__name">Change</p>
+             <p class="ticker-chart__data_container__value">
+                <i v-bind:class="Prices.percentageChange > 0 ?'fa fa-caret-up':'fa fa-caret-down'" aria-hidden="true"></i>
+                <span class="ticker-chart__data_container__value__first"> {{Prices.change < 0 ? '(' + formatter.format(Math.abs(Prices.change)) + ')' : formatter.format(Prices.change)}}</span>
+                <span class="ticker-chart__data_container__value__second">{{Prices.percentageChange < 0 ? '(' + formatter.format(Math.abs(Prices.percentageChange)) + ')' : formatter.format(Prices.percentageChange)}}%</span>
+             </p>
+          </div>
+       </div>
+       <div class="ticker-chart__graph">
+          <nav class="graph-tabs">
+             <span class="graph-tabs__item active-graph-tabs__item" v-on:click="fetchCartData(this._token,'1D')">
+             1D
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'5D')">
+             5D
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'1M')">
+             1M
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'3M')">
+             3M
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'6M')">
+             6M
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'1Y')">
+             1Y
+             </span>
+             <span class="graph-tabs__item" v-on:click="fetchCartData(this._token,'AY')">
+             SI
+             </span>
+          </nav>
+          <div id="container" style="height: 177px;"></div>
+       </div>
+       <div class="ticker-chart__name"> Tanmiah Share (live) </div>
+    </div>
+ </div>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.highcharts.com/stock/highstock.js"></script>
+ <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+ <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script> 
+ <script>
+    Highcharts.setOptions({
+        global: {
+            timezoneOffset: -240
+        }
+    });
+    var mainChart;
+    const api_user = "U23996-AEF4A894686BC8828EF8-8B518F-0B"; //Argaam API User
+    const api_password = "yGnu/As3O52zQzbMBX/VMyNS1U8eCR7lL3bh1SfFCoifbPg49rjoNQ=="; // Argaam API Password
+     const baseUrl = "https://data.argaam.com";
+    const api_version = '1.0';
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+    var tanmiahApp = new Vue({
+        el: "#tickerApp",
+        data: {
+            _token: '',
+            accessTokenExpireIn: new Date(2020),
+            companyId: 13515,  
+            marketId: 3,
+            CompanyStockSummary: {},
+            Prices: {},
+            ChartsData: {},
+            Loading: { CompanyStockSummary: false, Prices: false, ChartsData :false }
+        },
+        mounted: function () {
+            var app = this;
+            this.getAccessToken().then(function (response) {
+                app._token = response;
+                app.fetchPrices(response);
+                app.fetchCartData(response, '1D');
+            }, function () {
+                alert("rejected !!");
+            })
+            .catch(function (ex) {
+                alert(ex);
+            });
+        },
+        methods: {
+            getAccessToken: function () {
+                var app = this;
+                if (this.accessTokenExpireIn < new Date()) {
+                    var authUrl = baseUrl + "/authenticate";
+                    var data = { username: api_user, password: api_password };
+                    return axios.post(authUrl, data)
+                        .then(function (response) {
+                            var data_1 = response.data;
+                            app._token = data_1.jwtToken;
+                            app.accessTokenExpireIn = data_1.expires;
+                            return Promise.resolve(response.data.jwtToken);
+                        })
+                        .catch(function (exception) {
+                            console.log('Error:' + exception);
+                            throw (exception);
+                            return Promise.reject(exception);
+                        });
+                }
+                else {
+                    return Promise.resolve(this._token);
+                }
+            },
+            fetchPrices: function (accT) {
+                this.Loading.Prices = true;
+                this.Loading.MarketData = true;
+                var apiUrl = baseUrl + "/api/v" + api_version + "/json/company/get-prices-data/" + this.marketId + "/" + this.companyId;
+                var app = this;
+                axios.get(apiUrl, { headers: { 'Content-Type': 'application/json', 'authorization': 'Bearer ' + accT } })
+                    .then(function (response) { 
+                        app.Prices = response.data.companyPrices[0];
+                        app.Loading.Prices = false; 
+                    })
+                    .catch(function (exception) {
+                        console.log('Error:' + exception);
+                    });
+    
+            },
+            fetchCartData: function (accT, period) {
+               
+                this.Loading.ChartsData = true;
+                this.Loading.MarketData = true; //ir-api/data-for-charts/3/77/0/1D
+                var apiUrl = baseUrl + "/api/v" + api_version + "/json/ir-api/data-for-charts/" + this.marketId + "/" + this.companyId+"/0/"+period;
+                var app = this;
+                this.getAccessToken().then(function (response) {
+                    axios.get(apiUrl, { headers: { 'Content-Type': 'application/json', 'authorization': 'Bearer ' + response } })
+                        .then(function (response) {
+                            app.ChartsData = response.data;
+                            var data = app.ChartsData.data;
+                            if (mainChart !== undefined) {
+                                mainChart.destroy();
+                            }
+                            mainChart = new Highcharts.stockChart('container', {
+                                chart: {
+                                    renderTo: 'container',
+                                    backgroundColor: 'transparent'
+                                },
+                                rangeSelector: {
+                                    enabled: false
+                                },
+                                responsive: {
+                                    rules: [{
+                                        condition: {
+                                            maxWidth: 500
+                                        },
+                                        chartOptions: {
+                                            legend: {
+                                                enabled: false
+                                            }
+                                        }
+                                    }]
+                                },
+                                series: [{
+                                    name: 'Tanmiah',
+                                    type: 'line',
+                                    data: data,
+                                    color: 'darkgreen',
+                                    tooltip: {
+                                        valueDecimals: 2
+                                    },
+                                    turboThreshold: 1000000
+                                }],
+                                yAxis: [{
+                                    id: "main-series",
+                                    startOfWeek: 0,
+                                    opposite: false,
+                                    labels: {
+                                        align: 'right',
+                                        formatter: function () {
+                                            return Highcharts.numberFormat(this.value, 2);
+                                        },
+                                        offset: 0,
+                                        lineWidth: 1,
+                                        style: {
+                                            color: '#4D4D4D'
+                                        }
+                                    }
+                                }],
+                                xAxis: [{
+                                    id: "main-series", 
+                                    labels: {
+                                        style: {
+                                            color: '#4D4D4D'
+                                        }
+                                    }
+                                }],
+                                tooltip: {
+                                    formatter: function () {
+                                        return Highcharts.dateFormat(period.includes('D') ? '%B %e, %Y %H:%M' : '%B %e, %Y', this.x) + '<br/> <b> Tanmiah </b>:' +
+                                            Highcharts.numberFormat(this.y, 2);
+                                    }
+                                },
+                                annotationsOptions: { enabledButtons: false },
+                                navigator: { enabled: false },
+                                scrollbar: { enabled: false }
+                            });
+                            app.Loading.ChartsData = false;
+                        })
+                        .catch(function (exception) {
+                            console.log('Error:' + exception);
+                        });
+                });
+            },
+        }
+    });
+ </script>
+ <script>
+    $('.graph-tabs__item').click(function(){
+        $('.graph-tabs__item').removeClass('active-graph-tabs__item');
+        $(this).addClass('active-graph-tabs__item');
+    })
+ </script>
+  
